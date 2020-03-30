@@ -1,5 +1,5 @@
-# skriblyproject
-Web tech Project SEM3 project name-SKRIBLY  
+# Skriblyproject
+Web Framework Project- TO Rebuild a website using django.
 ### IDEA:  
 This is a fun, simple and interactive website designed to help users create their own comic strip and share them.  
  
@@ -16,9 +16,4 @@ Each work will be given a watermark which is unique to every user so as to preve
  
 This project stands out as most of the current websites do not offer the feature of displaying your work; rather they are tools using which you create a comic and then download it. There isn’t any option to view other artist’s work.  
  
-### FUTURE IMPLEMENTATION:  
-A feature where the user may upload their own picture files to the comic.  
-A feature where the user can draw using mouse input.  
 
-mysql/data  
-htdocs/skribly
