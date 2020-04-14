@@ -182,7 +182,17 @@
         border: none;
         outline: none;
     }
-    
+    #reset{
+        margin-left: 10vw;
+        float:left;
+        font-size: 17px;
+        width:12vw;
+        height:5vh;
+        border-radius: 0.5vw;
+        background-color:whitesmoke ;
+        border: none;
+        outline: none;
+    }
 </style>
 
 <body>
@@ -251,7 +261,7 @@
        
     </div><br>
     <div id="Canvas" ondrop="drop(event)" ondragover="allowDrop(event)"></div><br>
-    <button onclick="reset(event)">RESET</button>
+    <button id="reset" onclick="reset(event)">RESET</button>
     <button id="save" onclick="printToFile()">SAVE</button>
 
 
