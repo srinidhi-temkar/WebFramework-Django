@@ -2,20 +2,22 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="myworkcss.css">
+    
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel="stylesheet" type='text/css'>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css" />
 </head>
-<style>
+<style> 
     body {
         font-size: 62.5%;
         font-family: arial, sans-serif;
@@ -64,7 +66,7 @@
         display: block;
     }
     
-    #Canvas {
+    #Canvas{
         margin-left: 10vw;
         margin-right: 10vw;
         width: 79vw;
@@ -72,6 +74,8 @@
         border-radius: 1vw;
         border: 0.3vw solid #000000;
         background-color: white;
+        overflow:hidden; 
+        z-index:1;
         
     }
     
@@ -163,6 +167,10 @@
         width: 5.1vw;
     
     }
+    .menu3-content img{
+        width:3vw;
+        height:4vh;
+    }
     #save{
         margin-right: 10vw;
         float:right;
@@ -201,67 +209,179 @@
         <div class="dropdown1">
             <button id="menu1" style="border-top-left-radius:0.5vw;border-bottom-left-radius:0.5vw;">Grids</button>
             <div class="menu1-content">
-                <button id="1x3" draggable="true"  ondragstart="drag(event)" ondragend="image(event)"><img id ="imgrid1"src="images/3x1.png" alt="1x3" ></button>
-                <button id="1x4" draggable="true" ondragstart="drag(event)" ><img id ="imgrid2"src="images/4x1.png" alt="1x3"></button>
-                <button id="2x2" draggable="true"  ondragstart="drag(event)" ondragend="image(event)"><img id ="imgrid3"src="images/2x2.png" alt="1x3"></button>
+                <button id="1x3" ><img id ="imgrid1"src="images/3x1.png" alt="1x3" onclick="click1(event)"></button>
+                <button id="1x4" ><img id ="imgrid2"src="images/4x1.png" alt="1x3" onclick="click2(event)"></button>
+                <button id="2x2" ><img id ="imgrid3"src="images/2x2.png" alt="1x3" onclick="click3(event)"></button>
             </div>
         </div>
         <div class="dropdown2">
             <button id="#menu2">Characters</button>
             <div class="menu2-content">
-            <button id="char1" draggable="true"  ondragstart="drag(event)"><img src="images/charac8.jpg" ></button>
-            <button id="char2"><img src="images/charac11.jpg" ></button>
-            <button id="char3"> <img src="images/charac12.jpg"></button>
-            <button id="char4"> <img src="images/charac13.jpg" ></button>
-            <button id="char5"><img src="images/charac14.jpg" ></button>
-            <button id="char6"> <img src="images/charac16.jpg" ></button>
-            <button id="char7"> <img src="images/charac17.jpg" ></button>
-            <button id="char8"><img src="images/charac18.jpg" ></button>
-            <button id="char9"><img src="images/charac15.jpg" ></button>
+                <button id="char1" ondragstart="image(event)"><img id="imgc1" src="images/charac1.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char2" ondragstart="image(event)"><img id="imgc2" src="images/charac2.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char3" ondragstart="image(event)"> <img id="imgc3" src="images/charac3.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char4" ondragstart="image(event)"> <img id="imgc4" src="images/charac4.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char5" ondragstart="image(event)"><img id="imgc5" src="images/charac5.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char6" ondragstart="image(event)"> <img id="imgc6" src="images/charac6.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ></button>
+                <button id="char7" ondragstart="image(event)"> <img id="imgc7" src="images/charac7.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ></button>
+                <button id="char8" ondragstart="image(event)"><img  id="imgc8" src="images/charac8.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char9" ondragstart="image(event)"><img  id="imgc9" src="images/charac9.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char10" ondragstart="image(event)"><img  id="imgc10" src="images/charac10.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char11" ondragstart="image(event)"><img  id="imgc11" src="images/charac11.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char12" ondragstart="image(event)"><img  id="imgc12" src="images/charac12.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char13" ondragstart="image(event)"><img  id="imgc13" src="images/charac13.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char14" ondragstart="image(event)"><img  id="imgc14" src="images/charac14.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char15" ondragstart="image(event)"><img  id="imgc15" src="images/charac15.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char16" ondragstart="image(event)"><img  id="imgc16" src="images/charac16.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char17" ondragstart="image(event)"><img  id="imgc17" src="images/charac17.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char18" ondragstart="image(event)"><img  id="imgc18" src="images/charac18.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
             </div>
         </div>
         <div class="dropdown3">
                 <button id="#menu3">Dialogue Boxes</button>
                 <div class="menu3-content">
-                <button id="box1" draggable="true"  ondragstart="drag(event)"   ><img src="images/box1.png" style="width:3vw;"></button>
-                <button id="box2"><img src="images/box2.jpg" style="width:3vw;"></button>
-                <button id="box3"><img src="images/box3.jpg" style="width:3vw;"></button>
-                <button id="box4"><img src="images/box4.png" style="width:3vw;"></button>
-                <button id="box5"><img src="images/box5.png" style="width:3vw;"></button>
-                <button id="box6"><img src="images/box6.jpg" style="width:3vw;"></button>
+                <button id="box1" ondragstart="image(event)"  ><img id="b1" src="images/box1.png" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="box2"ondragstart="image(event)"><img id="b2" src="images/box2.jpg"  draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="box3" ondragstart="image(event)"><img id="b3" src="images/box3.jpg"  draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="box4" ondragstart="image(event)"><img id="b4" src="images/box4.png"  draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="box5" ondragstart="image(event)"><img id="b5" src="images/box5.png"  draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="box6" ondragstart="image(event)"><img id="b6" src="images/box6.jpg"  draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
                 </div>
         </div>
        
     </div><br>
     <div id="Canvas" ondrop="drop(event)" ondragover="allowDrop(event)"></div><br>
-    <button id="save">SAVE</button>
+    <button onclick="reset(event)">RESET</button>
+    <button id="save" onclick="printToFile()">SAVE</button>
 
 
 </body>
 
 </html>
 <script>
-   function allowDrop(ev) {
-    ev.preventDefault();//because cant be dropped into other elements by default
+
+    function click1(ev)
+    {
+       
+
+        for(i=0 ;i< 3;i++)
+        {
+            var d=document.createElement("div");
+            d.id="three"+i;
+            d.ondblclick=divremove;
+            d.ondrop=drop;
+            d.ondragover=allowDrop;
+            document.getElementById("Canvas").appendChild(d);
+            d.setAttribute("style","height:69vh; width:33.33%; display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white; overflow:hidden; z-index:1");
+        }
+      
     }
+    function click2(ev)
+    {
+        
+        for(i=0 ;i< 4;i++)
+        {
+            var d=document.createElement("div");
+            d.id="four"+i;
+            d.ondblclick=divremove;
+            d.ondrop=drop;
+            d.ondragover=allowDrop;
+            document.getElementById("Canvas").appendChild(d);
+            d.setAttribute("style","height:69vh; width:25%; display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white; overflow:hidden; z-index:1");
+        }
+    
+    }
+    function click3(ev)
+    {
+        
 
-    function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id); //datatype:text
-     var btn=document.getElementById("1x3");
-    var i=document.createElement("img");
-    i.setAttribute("src","images/3x1.png");
-    btn.appendChild(i);
+        for(i=0 ;i< 4;i++)
+        {
+            var d=document.createElement("div");
+            d.id="square_four"+i;
+            d.ondblclick=divremove;
+            d.ondrop=drop;
+            d.ondragover=allowDrop;
+            document.getElementById("Canvas").appendChild(d);
+            if( i==0 || i==1)
+                d.setAttribute("style","height:50%; width:50%; display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white;  overflow:hidden; z-index:1");
+            else
+                d.setAttribute("style","height:50%; width:50%; margin-top=35vh;  display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white;overflow:hidden; z-index:1");
+        }
+        
+    }
+    function image(ev)
+    {
+        
+        var btn=document.getElementById(ev.path[1].id);
+        var i=document.createElement("img");
+        i.id=ev.path[0].id+"0";
+        i.src=document.getElementById(ev.path[0].id).src;
+        btn.appendChild(i);
+    }
+    function drag(ev)
+    {
+       
+        var style = window.getComputedStyle(event.target, null);
+        var str = (parseInt(style.getPropertyValue("left")) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top")) - event.clientY) + ',' + event.target.id;
+        event.dataTransfer.setData("Text", str);
+      
 
     }
-
-    function drop(ev) {
-     ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
-    document.getElementById("imgrid1").setAttribute("style","height:inherit; width:inherit;");
-
+    function allowDrop(ev)
+    {
+        ev.preventDefault();//because cant be dropped into other elements by default
     }
    
-		
-			
+    function drop(ev)
+    {
+        ev.preventDefault();
+       var id = event.dataTransfer.getData('text').split(',');
+       var draggableElement = document.getElementById(id[2]); console.log(draggableElement.id[0]);
+        var dropzone = ev.target;
+        draggableElement.ondblclick=divremove;
+        dropzone.appendChild(draggableElement);
+        if(draggableElement.id[0]=='b')
+            draggableElement.setAttribute("style","height:20%; width:20%; position:relative; z-index:2");
+        else
+            draggableElement.setAttribute("style","height:50%; width:50%; position:relative; z-index:1");
+        draggableElement.style.left = (event.clientX + parseInt(id[0],10)) + 'px';
+        draggableElement.style.top = (event.clientY + parseInt(id[1],10)) + 'px';
+        event.dataTransfer.clearData();
+        return false;
+        
+    }
+    function divremove(ev)
+    {
+        console.log(this);
+        ev.cancelBubble=true;
+        ev.preventDefault();
+        this.remove();
+     }
+   function reset(ev)
+   {
+       document.getElementById("Canvas").innerHTML="";
+   }
+    
+
+   function downloadURI(uri, name) {
+    var link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    link.click();
+    
+    }
+
+    //Your modified code.
+    function printToFile() {
+        d=document.getElementById("Canvas");
+        html2canvas(d, { allowTaint : true,
+            onrendered: function (canvas) {
+                var myImage = canvas.toDataURL("image/png");
+                downloadURI("data:" + myImage, "yourImage.png");
+            },
+            
+        });
+    }
+                
 </script>
