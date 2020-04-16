@@ -1,4 +1,4 @@
-# Skriblyproject
+# Skribblyproject
 Web Framework Project- TO Rebuild a website using django.
 ### IDEA:  
 This is a fun, simple and interactive website designed to help users create their own comic strip and share them.  
