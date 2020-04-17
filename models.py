@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+# from django.auth import AbstractUser
 
 gender_choices = [("M", "Male"), ("F", "Female"), ("O", "Others")]
 class User(models.Model):
