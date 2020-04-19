@@ -19,7 +19,7 @@ class Artist(models.Model):
 	favorites = models.ManyToManyField('ComicStrip', related_name = 'favorites', blank = True)
 
 	def __str__(self):
-		return self.username
+		return self.user.username
 
 @receiver(post_save, sender=User)
 def create_new_artist(sender, instance, created, **kwargs):
@@ -28,7 +28,7 @@ def create_new_artist(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_existing_artist(sender, instance, **kwargs):
-    instance.artist.save()
+    if(not instance.is_staff): instance.artist.save()
 
 class ComicStrip(models.Model):
 	strip_image = models.ImageField(upload_to = 'Skribbly/Comic Strips/') #height_field #width_field
@@ -52,6 +52,9 @@ class Comment(models.Model):
 	added_on = models.DateTimeField(default = timezone.now)
 	upvotes = models.ManyToManyField(User, related_name = 'upvotes', blank = True)
 	downvotes = models.ManyToManyField(User, related_name = 'downvotes', blank = True)
+
+	def __str__(self):
+		return self.comment
 
 	def add(self):
 		self.added_on = timezone.now()

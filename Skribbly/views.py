@@ -33,7 +33,7 @@ def register(request):
 	form = CreateUserForm()
 	if request.method =="POST":
 		form = CreateUserForm(request.POST)
-		# print(form)
+		print(form)
 		if form.is_valid():
 			form.save()
 			user = form.cleaned_data.get('username')
