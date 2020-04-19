@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+
+    <title>SKRIBBLY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Cabin:400,700&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: rgb(236, 131, 131);
+            font-family: 'Cabin';
+        }
+        
+        .navbar {
+            overflow: hidden;
+            background-color: rgb(46, 46, 46);
+        }
+        /* Style the navigation bar links */
+        
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        /* Right-aligned link */
+        
+        .navbar a.right {
+            float: right;
+        }
+        /* Change color on hover */
+        
+        .navbar a:hover {
+            background-color: rgb(112, 109, 109);
+            color: rgb(27, 25, 26);
+        }
+        /* Style the tab */
+        
+        .tab {
+            float: left;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            width: 20vw;
+            height: 56vh;
+            overflow-x: hidden;
+             transition: 0.5s;
+        }
+        /* Style the buttons inside the tab */
+        
+        .tab button {
+            display: block;
+            background-color: inherit;
+            color: black;
+            padding: 22px 14px;
+            width: 100%;
+            border: none;
+            outline: none;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+        /* Change background color of buttons on hover */
+        
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        /* Create an active/current "tab button" class */
+        
+        .tab button.active {
+            background-color: #ccc;
+        }
+        /* Style the tab content */
+        
+        .tabcontent {
+            float: right;
+            padding: 0px 12px;
+            margin-left: 1%;
+            margin-right: 1%;
+            border: 1px solid #ccc;
+            width: 75%;
+            border-left: none;
+            height: 55vh;
+            background-color: white;
+        }
+        
+        #slides {
+            margin-top: 27%;
+            position: absolute;
+            width: 100%;
+        }
+        
+        hr.newline {
+            position: absolute;
+            border: 10px solid white;
+            border-radius: 5px;
+            margin-top: 23%;
+            width: 98.5%;
+        }
+       
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <a onclick="location.href='{%url 'index' %}'">Home</a>
+        <a onclick="location.href='{%url 'gallery' %}'">Gallery</a>
+        <a onclick="location.href='{%url 'login' %}'">Workspace</a>
+        <a onclick="location.href='{%url 'login' %}'">Go to your profile</a>
+        <a href="#" class="right" onclick="changetheme()">Night mode</a>
+        <a href="#" class="right" onclick="nochange()">Light mode</a>
+    </div>
+    <h2 style="text-align:center;">Getting started with Skribly</h2>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'grids')" id="defaultOpen">Grids</button>
+        <button class="tablinks" onclick="openTab(event, 'characters')">Characters</button>
+        <button class="tablinks" onclick="openTab(event, 'dialoguebox')">Dialogue Boxes</button>
+        <button class="tablinks" onclick="openTab(event, 'resetting')">Reset Canvas</button>
+        <button class="tablinks" onclick="openTab(event, 'uploading')">Upload Images</button>
+     
+    </div>
+   
+    <div id="grids" class="tabcontent">
+        <h3>Select a grid</h3>
+        <img src="{% static 'images/2x2.png' %}" style="width:20%">
+        <img src="{% static 'images/3x1.png' %}" style="width:20%">
+        <img src="{% static 'images/4x1.png' %}" style="width:20%">
+
+    </div>
+
+    <div id="characters" class="tabcontent">
+        <h3>Select characters </h3>
+
+        <img src="{% static 'images/charac8.jpg' %}" style="width:10%">
+        <img src="{% static 'images/charac11.jpg' %}" style="width:10%">
+		<img src="{% static 'images/charac12.jpg' %}" style="width:10%">
+		<img src="{% static 'images/charac13.jpg' %}" style="width:10%">
+		<img src="{% static 'images/charac14.jpg' %}" style="width:10%">
+		<img src="{% static 'images/charac15.jpg' %}" style="width:10%">
+		<img src="{% static 'images/charac16.jpg' %}" style="width:10%">
+		<img src="{% static 'images/charac17.jpg' %}" style="width:10%">
+		<img src="{% static 'images/charac18.jpg' %}" style="width:10%">
+
+        
+    </div>
+
+    <div id="dialoguebox" class="tabcontent">
+        <h3>Choose dialogue boxes</h3>
+        <img src="{% static 'images/box1.png' %}" style="width:10%">
+		<img src="{% static 'images/box2.jpg' %}" style="width:10%">
+		<img src="{% static 'images/box3.jpg' %}" style="width:10%">
+		<img src="{% static 'images/box4.png' %}" style="width:10%">
+		<img src="{% static 'images/box5.png' %}" style="width:10%">
+		<img src="{% static 'images/box6.jpg' %}" style="width:10%">
+    </div>
+
+    <div id="resetting" class="tabcontent">
+        <h3>Reset or Remove</h3>
+        <img src="{% static 'images/reset1.png' %}" style="width:33%; height:80%">
+        <img src="{% static 'images/reset2.png'%}" style="width:25%; height:80%">
+        <img src="{% static 'images/reset3.png' %}" style="width:40%; height:80%">
+       
+    </div>
+
+    <div id="uploading" class="tabcontent">
+        <h3>Browse to upload images to your comics</h3>
+    </div>
+    <br>
+    <!--<hr class="newline">-->
+    <!--SLIDESHOW-->
+    <div id="slides">
+        <h2 id="example" style="margin-left: 45%;">Example</h2>
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="{% static 'images/slide1.png'%}" style="width:60%;margin-left: 20%;">
+                </div>
+
+                <div class="item">
+                    <img src="{% static 'images/slide2.png'%}" style="width:60%;margin-left: 20%;">
+                </div>
+
+                <div class="item">
+                    <img src="{% static 'images/slide3.png'%}" style="width:60%;margin-left: 20%;">
+                </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+
+
+    <script>
+       
+        function openTab(evt, TabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(TabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+
+        document.getElementById("defaultOpen").click();
+
+
+        var h2 = document.getElementsByTagName("h2");
+        var h3 = document.getElementsByTagName("h3");
+        var h = document.getElementById("example");
+        var body = document.getElementsByTagName("body");
+
+        function changetheme() {
+            h2[0].style.color = "white";
+            localStorage.setItem("txtcolor", "white");
+            h.style.color = "white";
+            body[0].style.backgroundColor = "rgb(23, 34, 70)";
+            localStorage.setItem("color", "rgb(23, 34, 70)");
+        }
+
+        function nochange() {
+            h2[0].style.color = "black";
+            localStorage.setItem("txtcolor", "black");
+            for (var i = 0; i < h3.length; i++) {
+                h3[i].style.color = "black";
+            }
+            h.style.color = "black";
+            body[0].style.backgroundColor = " rgb(236, 131, 131)";
+            localStorage.setItem("color", " rgb(236, 131, 131)");
+
+        }
+        window.onstorage = dem;
+        if (localStorage.getItem("txtcolor")) {
+            h2[0].style.color = localStorage.getItem("txtcolor");
+        }
+        if (localStorage.getItem("color")) {
+
+            body[0].style.backgroundColor = localStorage.getItem("color");
+
+        }
+
+        function dem() {
+            body.style.background = localStorage.getItem("color");
+            h2.style.color = localStorage.getItem("txtcolor");
+
+        }
+    </script>
+
+</body>
+
+</html>
