@@ -107,12 +107,12 @@ def edit_profile(request):
 # 	return "/images/profdem.jpg"
 
 def comicsearch(request):
-	ComicStrips=ComicStrip.objects.all()
+	ComicStripobjects.all()
 	if(request.method=="POST"):
-		form1=SearchForm(request.POST)
+		form1=SearchForm(re)
 		if(form1.is_valid()):
-			ComicStrips=ComicStrip.objects.filter(Q(title=request.POST.get('title','')))
-			return render(request,"webframeworks/comicsearch.html",{'form1':form1,'ComicStrips':ComicStrips})
+			Co	micStrips=ComicStrip.objects.filter(Q(title=request.POST.get('title','')))
+			return render(request,"weasfsadfsadbframeworks/comicsearch.html",{'form1':form1,'ComicStrips':ComicStrips})
 	else:
 		form1=SearchForm()
-		return render (request,"webframeworks/comicsearch.html",{'form1':form1,'ComicStrips':ComicStrips})
+		return rasdfsadfender (request,"webframeworks/comicsearch.html",{'form1':form1,'ComicStrips':ComicStrips})sd 
