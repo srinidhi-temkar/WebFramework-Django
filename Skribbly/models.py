@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import os
 
 gender_choices = [("M", "Male"), ("F", "Female"), ("O", "Others")]
 class Artist(models.Model):
@@ -11,12 +12,12 @@ class Artist(models.Model):
 	# username = models.CharField(max_length = 16, primary_key = True)
 	# first_name = models.CharField(max_length = 16)
 	# last_name = models.CharField(max_length = 16)
-	gender = models.CharField(max_length = 6, choices = gender_choices)
+	gender = models.CharField(max_length = 6, choices = gender_choices, blank = True)
 	# email = models.EmailField(max_length = 256)
-	age = models.PositiveIntegerField(null = True, validators = [MinValueValidator(10), MaxValueValidator(120)])
-	profile_picture = models.ImageField(upload_to = 'Skribbly/Profile Pictures/') #height_field #width_field
+	age = models.PositiveIntegerField(validators = [MinValueValidator(10), MaxValueValidator(120)])
+	profile_picture = models.ImageField(upload_to = 'Skribbly/Profile Pictures/', blank = True) #height_field #width_field
 	date_joined = models.DateTimeField(default = timezone.now)
-	favorites = models.ManyToManyField('ComicStrip', related_name = 'favorites', blank = True)
+	favorites = models.ManyToManyField('ComicStrip', related_name = 'favorites', null = True)
 
 	def __str__(self):
 		return self.user.username
@@ -33,15 +34,17 @@ def save_existing_artist(sender, instance, **kwargs):
 class ComicStrip(models.Model):
 	strip_image = models.ImageField(upload_to = 'Skribbly/Comic Strips/') #height_field #width_field
 	user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'comic_strips')
-	title = models.CharField(max_length = 32)
+	title = models.CharField(max_length = 64)
 	created_on = models.DateTimeField(default = timezone.now)
-	likes = models.ManyToManyField(User, related_name = 'likes', blank = True)
+	likes = models.ManyToManyField(User, related_name = 'likes', null = True)
 
 	def __str__(self):
 		return self.title
 
 	def create(self):
-		self.created_on = timezone.now()
+		# self.created_on = timezone.now()
+		self.strip_image.save(f"{self.user}/{self.title}.png", open(f"media/Skribbly/Comic Strips/{self.user}/temp", 'rb'))
+		os.remove(f"media/Skribbly/Comic Strips/{self.user}/temp")
 		self.save()
 
 class Comment(models.Model):
@@ -50,8 +53,8 @@ class Comment(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'comments')
 	comic_strip = models.ForeignKey(ComicStrip, on_delete = models.CASCADE, related_name = 'comments')
 	added_on = models.DateTimeField(default = timezone.now)
-	upvotes = models.ManyToManyField(User, related_name = 'upvotes', blank = True)
-	downvotes = models.ManyToManyField(User, related_name = 'downvotes', blank = True)
+	upvotes = models.ManyToManyField(User, related_name = 'upvotes', null = True)
+	downvotes = models.ManyToManyField(User, related_name = 'downvotes', null = True)
 
 	def __str__(self):
 		return self.comment
