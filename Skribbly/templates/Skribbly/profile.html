@@ -135,14 +135,15 @@
 <script>
             var bgtheme=document.getElementsByTagName("body");
               function changebg()
-              {                  
-                bgtheme[0].style.backgroundImage=url("{% static 'images/newbg1.jpg' %}");
-                localStorage.setItem("bgimg","url('images/newbg1.jpg')");
+              {
+                  
+                  bgtheme[0].style.backgroundImage="url({% static 'images/newbg1.jpg'%})";
+                  localStorage.setItem("bgimg","url({% static 'images/newbg1.jpg'%})");
               }
               function nochangebg(){
                 
-                bgtheme[0].style.backgroundImage="url('images/bg8.jpg')";
-                localStorage.setItem("bgimg","url('images/bg8.jpg')");
+                bgtheme[0].style.backgroundImage="url({% static 'images/bg8.jpg'%})";
+                localStorage.setItem("bgimg","url({% static 'images/bg8.jpg'%})");
 
               }
               

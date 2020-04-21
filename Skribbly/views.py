@@ -92,7 +92,7 @@ def edit_profile(request):
 			return render(request,'Skribbly/profile.html',{'user': user})
 		else:
 			print(form)
-			form = ArtistForm(instance=profile)
+			form = ArtistForm(instance=user.artist)
 	else:
 		form = ArtistForm(instance=user.artist)
 	
