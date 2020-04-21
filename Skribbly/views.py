@@ -19,7 +19,9 @@ def loginPage(request):
 		user = authenticate(request,username=username,password=password)
 		if user is not None:
 			login(request,user)
-			return redirect('profile')
+			prof=User.objects.get(username=user)
+			prof1=Artist.objects.get(user=user)
+			return render(request,'Skribbly/profile.html',{'profile':prof ,'profile1':prof1})
 		else:
 			messages.info(request, 'Username OR Password is incorrect')
 	context={}
@@ -64,3 +66,31 @@ def mywork(request):
 	form = ComicForm()
 	print(form)
 	return render(request = request, template_name = 'Skribbly/mywork.html', context = {"form": form})
+def edit_profile(request):
+	try:
+		profile = request.user.artist
+		user=request.user
+		
+	except Artist.DoesNotExist:
+		profile = Artist(user=request.user)
+		
+	if request.method == 'POST':
+		form = ArtistForm(request.POST,request.FILES, instance=profile)
+		if form.is_valid():
+			form.save()
+			prof=Artist.objects.get(user=user)
+			return render(request,'Skribbly/profile.html',{'profile':user,'profile1':prof})
+		else:
+			form = ArtistForm(instance=profile)
+	else:
+		form = ArtistForm(instance=profile)
+	
+	return render(request,'Skribbly/edit_profile.html',{ 'form': form})
+
+@property
+#doesn't work as it returns an object
+def profile_picture_url(self):
+	if self.profile_picture and hasattr(self.profile_picture,'url'):
+		return self.profile_picture.url
+	
+	return "/images/profdem.jpg" 
