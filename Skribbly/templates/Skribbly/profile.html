@@ -113,7 +113,9 @@
             
             <h2>{{ user.username }}</h2>
             {% if user.artist.profile_picture %}
-            <img src="{{ user.artist.profile_picture.url }}" alt="Add Profile Picture" style="height:30%;width:75%">
+                <img src="{{ user.artist.profile_picture.url }}" alt="Add Profile Picture" style="height:30%;width:75%">
+            {% else %}
+                <img src="/media/Skribbly/Profile Pictures/default.jpg" alt="Add Profile Picture" style="height:30%;width:75%">
             {%endif%}
             <h3>{{ user.email }}</h3>
             <button class="updateprofpic" style="height:50px; border: 3px solid rgb(51, 48, 48); color:white; background-color: black;"  onclick="location.href='{% url 'edit_profile' %}'">Update Profile<br>

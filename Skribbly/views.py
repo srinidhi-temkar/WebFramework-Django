@@ -26,9 +26,6 @@ def loginPage(request):
 		user = authenticate(request,username=username,password=password)
 		if user is not None:
 			login(request,user)
-			# prof=User.objects.get(username=user)
-			# prof1=Artist.objects.get(user=user)
-			# return render(request,'Skribbly/profile.html',{'profile':prof ,'profile1':prof1})
 			return render(request,'Skribbly/profile.html',{'user':user})
 		else:
 			messages.info(request, 'Username OR Password is incorrect')
@@ -91,7 +88,7 @@ def edit_profile(request):
 			form.save()
 			return render(request,'Skribbly/profile.html',{'user': user})
 		else:
-			print(form)
+			print(form.errors)
 			form = ArtistForm(instance=user.artist)
 	else:
 		form = ArtistForm(instance=user.artist)
@@ -106,13 +103,13 @@ def edit_profile(request):
 	
 # 	return "/images/profdem.jpg"
 
-def comicsearch(request):
-	ComicStrips=ComicStrip.objects.all()
-	if(request.method=="POST"):
-		form1=SearchForm(request.POST)
-		if(form1.is_valid()):
-			ComicStrips=ComicStrip.objects.filter(Q(title=request.POST.get('title','')))
-			return render(request,"webframeworks/comicsearch.html",{'form1':form1,'ComicStrips':ComicStrips})
-	else:
-		form1=SearchForm()
-		return render (request,"webframeworks/comicsearch.html",{'form1':form1,'ComicStrips':ComicStrips})
+# def comicsearch(request):
+# 	ComicStrips=ComicStrip.objects.all()
+# 	if(request.method=="POST"):
+# 		form1=SearchForm(request.POST)
+# 		if(form1.is_valid()):
+# 			ComicStrips=ComicStrip.objects.filter(Q(title=request.POST.get('title','')))
+# 			return render(request,"webframeworks/comicsearch.html",{'form1':form1,'ComicStrips':ComicStrips})
+# 	else:
+# 		form1=SearchForm()
+# 		return render(request,"webframeworks/comicsearch.html",{'form1':form1,'ComicStrips':ComicStrips})
