@@ -235,6 +235,7 @@
 </style>
 
 <body> 
+
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 
         <ul class="navbar-nav">
@@ -254,6 +255,10 @@
     </nav>
     
     <h2><b>CREATE YOUR COMIC STRIP</b> </h2><br>
+
+    <form id = "comic_form" method = "POST"> {% csrf_token %}
+        {{form}}
+    </form>
     <div class="topnav">
         <div class="dropdown1">
             <button id="menu1" style="border-top-left-radius:0.5vw;border-bottom-left-radius:0.5vw;">Grids</button>
@@ -297,18 +302,17 @@
                 <button id="box6" ondragstart="image(event)"><img id="b6" src="{% static 'images/box6.jpg' %}"  draggable="true" ondragstart="drag(event)"></button>
                 </div>
         </div>
-       <div class="dropdown4">
+    <div class="dropdown4">
         <button id="#menu4">Upload</button>
-           <div class="menu4-content">
-           <button id="create" onclick="reset(event)">CREATE</button>
-           <button id="upload" onclick="upload(event)">UPLOAD</button>
+        <div class="menu4-content">
+        <button id="create" onclick="reset(event)">CREATE</button>
+        <button id="upload" onclick="upload(event)">UPLOAD</button>
             </div>
-       </div>
+    </div>
     </div><br>
     <div id="Canvas" class = "resize-drag"></div><br>
     <button id="reset" onclick="reset(event)">RESET</button>
     <button id="save" onclick="printToFile()">SAVE</button>
-
 
 </body>
 
@@ -567,15 +571,28 @@ window.dragMoveListener = dragMoveListener
     link.click();
     
     }
-
     function printToFile() {
-        d=document.getElementById("Canvas");
-        html2canvas(d, { allowTaint : true,
-            onrendered: function (canvas) {
-                var myImage = canvas.toDataURL("image/png");
-                downloadURI("data:" + myImage, "yourImage.png");
-            },
+        // d=document.getElementById("Canvas");
+        // html2canvas(d, { allowTaint : true,
+        //     onrendered: function (canvas) {
+        //         var myImage = canvas.toDataURL("image/png");
+        //         downloadURI("data:" + myImage, "yourImage.png");
+        //     },
             
+        // });
+        
+        c=document.getElementById("Canvas");
+        html2canvas(c, {
+            onrendered: function (canvas) {
+                // toDataURL defaults to png, so we need to request a jpeg
+                image_data = canvas.toDataURL('image/png');
+                document.getElementById("id_image_data").value = image_data;
+                console.log(image_data);
+                form = document.getElementById("comic_form");
+                form.submit();
+                // $('#id_image_data').val(image_data);
+                // $('#agreement_form').submit();
+            }
         });
     }
     

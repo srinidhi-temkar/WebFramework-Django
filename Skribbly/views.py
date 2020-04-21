@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.forms import forms 
-from .forms import CreateUserForm
+from .forms import CreateUserForm, ComicForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from .models import Artist, ComicStrip, Comment
@@ -45,5 +45,22 @@ def gallery(request):
 	return render(request,'Skribbly/gallery.html')
 def tutorial(request):
 	return render(request,'Skribbly/tutorial.html')
+	
 def mywork(request):
-	return render(request,'Skribbly/mywork.html')
+	print(request.method)
+	if(request.method == 'POST'):
+		form = ComicForm(request.POST)
+		print(form.is_valid())
+		if(form.is_valid()):
+			form.capture_comic(request.user)
+			comic_strip = ComicStrip(user=request.user, title=form.cleaned_data['title'])
+			# print(comic_strip)
+			comic_strip.create()
+			# messages.success(request, "Successfully saved the comic strip in your profile")
+			# return redirect('profile')
+		else:
+			print(form.errors)
+			return
+	form = ComicForm()
+	print(form)
+	return render(request = request, template_name = 'Skribbly/mywork.html', context = {"form": form})
