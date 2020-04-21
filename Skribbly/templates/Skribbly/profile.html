@@ -98,22 +98,25 @@
 <body>
 
     <div class="navbar">
-        <a onclick="location.href={% url 'index' %}">Home</a>
-        <a onclick="location.href={% url 'gallery'%}">Gallery</a>
-        <a onclick="location.href={% url 'mywork'%}">Workspace</a>
-        <a onclick="location.href={% url 'tutorial'%}">Tutorial</a>
+        <a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'gallery'%}">Gallery</a>
+        <a href="{% url 'canvas'%}">Workspace</a>
+        <a href="{% url 'tutorial'%}">Tutorial</a>
         <a href="#" class="right" onclick="changebg()">Change theme</a>
         <a href="#" class="right" onclick="nochangebg()">Default theme</a>
-        <a class="right" onclick="location.href={% url 'logout' %}">Logout</a>
+        <a class="right" href="{% url 'logout' %}">Logout</a>
     </div>
 
 
     <div class="row">
         <div class="side">
-            <h2>Username</h2>
-            <img src="{% static 'images/profdem.jpg' %}" style="height:200px;">
-            <h3>Email: test@gmail.com</h3>
-            <button class="updateprofpic" style="height:50px; border: 3px solid rgb(51, 48, 48); color:white; background-color: black;">Update Profile Picture<br>
+            
+            <h2>{{ user.username }}</h2>
+            {% if user.artist.profile_picture %}
+            <img src="{{ user.artist.profile_picture.url }}" alt="Add Profile Picture" style="height:30%;width:75%">
+            {%endif%}
+            <h3>{{ user.email }}</h3>
+            <button class="updateprofpic" style="height:50px; border: 3px solid rgb(51, 48, 48); color:white; background-color: black;"  onclick="location.href='{% url 'edit_profile' %}'">Update Profile<br>
 		
 	</div>
 	<div class="main">
@@ -132,10 +135,9 @@
 <script>
             var bgtheme=document.getElementsByTagName("body");
               function changebg()
-              {
-                  
-                  bgtheme[0].style.backgroundImage="url('images/newbg1.jpg')";
-                  localStorage.setItem("bgimg","url('images/newbg1.jpg')");
+              {                  
+                bgtheme[0].style.backgroundImage=url("{% static 'images/newbg1.jpg' %}");
+                localStorage.setItem("bgimg","url('images/newbg1.jpg')");
               }
               function nochangebg(){
                 

@@ -1,15 +1,15 @@
-{% load static %}
+
 <!DOCTYPE html>
+{% load static %}
 <html>
 
 <head>
     
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.css'%}">
 
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel="stylesheet" type='text/css'>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     
@@ -18,6 +18,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css" />
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 <style> 
     body {
@@ -83,6 +84,7 @@
     }
     
     .menu1-content {
+        z-index: 100;
         display: none;
         position: absolute;
         background-color: #f9f9f9;
@@ -108,6 +110,7 @@
     }
 
     .menu2-content {
+        z-index: 100;
         display: none;
         position: absolute;
         background-color: #f9f9f9;
@@ -141,6 +144,7 @@
     }
 
     .menu3-content {
+        z-index: 100;
         display: none;
         position: absolute;
         background-color: #f9f9f9;
@@ -231,251 +235,89 @@
 </style>
 
 <body> 
+
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="{% url 'index'%}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="gallery.html">Gallery</a>
+                <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="tutorial.html">Tutorial</a>
+                <a class="nav-link" href="{% url 'tutorial' %}">Tutorial</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" style="margin-right: 10vw;" href="index.html">Sign Out</a>
+                <a class="nav-link" style="margin-right: 10vw;" href="{% url 'index'%}">Sign Out</a>
             </li>
         </ul>
     </nav>
-
+    
     <h2><b>CREATE YOUR COMIC STRIP</b> </h2><br>
+
+    <form id = "comic_form" method = "POST"> {% csrf_token %}
+        {{form}}
+    </form>
     <div class="topnav">
         <div class="dropdown1">
             <button id="menu1" style="border-top-left-radius:0.5vw;border-bottom-left-radius:0.5vw;">Grids</button>
             <div class="menu1-content">
-                <button id="1x3" ><img id ="imgrid1"src="images/3x1.png" alt="1x3" onclick="click1(event)"></button>
-                <button id="1x4" ><img id ="imgrid2"src="images/4x1.png" alt="1x3" onclick="click2(event)"></button>
-                <button id="2x2" ><img id ="imgrid3"src="images/2x2.png" alt="1x3" onclick="click3(event)"></button>
+                <button id="1x3" ><img id ="imgrid1"src="{% static 'images/3x1.png' %}" alt="1x3" onclick="click1(event)"></button>
+                <button id="1x4" ><img id ="imgrid2"src="{% static 'images/4x1.png' %}" alt="1x3" onclick="click1(event)"></button>
+                <button id="2x2" ><img id ="imgrid3"src="{% static 'images/2x2.png' %}" alt="1x3" onclick="click1(event)"></button>
             </div>
         </div>
         <div class="dropdown2">
             <button id="#menu2">Characters</button>
             <div class="menu2-content">
-                <button id="char1" ondragstart="image(event)"><img id="imgc1" src="images/charac1.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char2" ondragstart="image(event)"><img id="imgc2" src="images/charac2.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char3" ondragstart="image(event)"> <img id="imgc3" src="images/charac3.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char4" ondragstart="image(event)"> <img id="imgc4" src="images/charac4.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char5" ondragstart="image(event)"><img id="imgc5" src="images/charac5.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char6" ondragstart="image(event)"> <img id="imgc6" src="images/charac6.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ></button>
-                <button id="char7" ondragstart="image(event)"> <img id="imgc7" src="images/charac7.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ></button>
-                <button id="char8" ondragstart="image(event)"><img  id="imgc8" src="images/charac8.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char9" ondragstart="image(event)"><img  id="imgc9" src="images/charac9.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char10" ondragstart="image(event)"><img  id="imgc10" src="images/charac10.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char11" ondragstart="image(event)"><img  id="imgc11" src="images/charac11.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char12" ondragstart="image(event)"><img  id="imgc12" src="images/charac12.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char13" ondragstart="image(event)"><img  id="imgc13" src="images/charac13.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char14" ondragstart="image(event)"><img  id="imgc14" src="images/charac14.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char15" ondragstart="image(event)"><img  id="imgc15" src="images/charac15.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char16" ondragstart="image(event)"><img  id="imgc16" src="images/charac16.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char17" ondragstart="image(event)"><img  id="imgc17" src="images/charac17.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="char18" ondragstart="image(event)"><img  id="imgc18" src="images/charac18.jpg" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="char1" ondragstart="image(event)"><img id="imgc1" src="{%static 'images/charac1.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char2" ondragstart="image(event)"><img id="imgc2" src="{%static 'images/charac2.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char3" ondragstart="image(event)"> <img id="imgc3" src="{%static 'images/charac3.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char4" ondragstart="image(event)"> <img id="imgc4" src="{%static 'images/charac4.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char5" ondragstart="image(event)"><img id="imgc5" src="{%static 'images/charac5.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char6" ondragstart="image(event)"> <img id="imgc6" src="{%static 'images/charac6.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char7" ondragstart="image(event)"> <img id="imgc7" src="{%static 'images/charac7.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char8" ondragstart="image(event)"><img  id="imgc8" src="{%static 'images/charac8.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char9" ondragstart="image(event)"><img  id="imgc9" src="{%static 'images/charac9.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char10" ondragstart="image(event)"><img  id="imgc10" src="{%static 'images/charac10.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char11" ondragstart="image(event)"><img  id="imgc11" src="{%static 'images/charac11.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char12" ondragstart="image(event)"><img  id="imgc12" src="{%static 'images/charac12.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char13" ondragstart="image(event)"><img  id="imgc13" src="{%static 'images/charac13.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char14" ondragstart="image(event)"><img  id="imgc14" src="{%static 'images/charac14.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char15" ondragstart="image(event)"><img  id="imgc15" src="{%static 'images/charac15.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char16" ondragstart="image(event)"><img  id="imgc16" src="{%static 'images/charac16.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char17" ondragstart="image(event)"><img  id="imgc17" src="{%static 'images/charac17.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="char18" ondragstart="image(event)"><img  id="imgc18" src="{%static 'images/charac18.jpg' %}" draggable="true" ondragstart="drag(event)"></button>
             </div>
         </div>
         <div class="dropdown3">
                 <button id="#menu3">Dialogue Boxes</button>
                 <div class="menu3-content">
-                <button id="box1" ondragstart="image(event)"  ><img id="b1" src="images/box1.png" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="box2"ondragstart="image(event)"><img id="b2" src="images/box2.jpg"  draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="box3" ondragstart="image(event)"><img id="b3" src="images/box3.jpg"  draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="box4" ondragstart="image(event)"><img id="b4" src="images/box4.png"  draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="box5" ondragstart="image(event)"><img id="b5" src="images/box5.png"  draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
-                <button id="box6" ondragstart="image(event)"><img id="b6" src="images/box6.jpg"  draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)"></button>
+                <button id="box1" ondragstart="image(event)"  ><img id="b1" src="{%static 'images/box1.png'%}" draggable="true" ondragstart="drag(event)"></button>
+                <button id="box2"ondragstart="image(event)"><img id="b2" src="{% static 'images/box2.jpg'%}"  draggable="true" ondragstart="drag(event)"></button>
+                <button id="box3" ondragstart="image(event)"><img id="b3" src="{%static 'images/box3.jpg' %}"  draggable="true" ondragstart="drag(event)"></button>
+                <button id="box4" ondragstart="image(event)"><img id="b4" src="{%static 'images/box4.png' %}"  draggable="true" ondragstart="drag(event)"></button>
+                <button id="box5" ondragstart="image(event)"><img id="b5" src="{% static 'images/box5.png' %}"  draggable="true" ondragstart="drag(event)"></button>
+                <button id="box6" ondragstart="image(event)"><img id="b6" src="{% static 'images/box6.jpg' %}"  draggable="true" ondragstart="drag(event)"></button>
                 </div>
         </div>
-       <div class="dropdown4">
+    <div class="dropdown4">
         <button id="#menu4">Upload</button>
-           <div class="menu4-content">
-           <button id="create" onclick="reset(event)">CREATE</button>
-           <button id="upload" onclick="upload(event)">UPLOAD</button>
+        <div class="menu4-content">
+        <button id="create" onclick="reset(event)">CREATE</button>
+        <button id="upload" onclick="upload(event)">UPLOAD</button>
             </div>
-       </div>
+    </div>
     </div><br>
-    <div id="Canvas" ondrop="drop(event)" ondragover="allowDrop(event)"></div><br>
+    <div id="Canvas" class = "resize-drag"></div><br>
     <button id="reset" onclick="reset(event)">RESET</button>
     <button id="save" onclick="printToFile()">SAVE</button>
-
 
 </body>
 
 </html>
 <script>
-
-    function click1(ev)
-    {
-       
-
-        for(i=0 ;i< 3;i++)
-        {
-            var d=document.createElement("div");
-            d.id="three"+i;
-            d.ondblclick=divremove;
-            d.ondrop=drop;
-            d.ondragover=allowDrop;
-            document.getElementById("Canvas").appendChild(d);
-            d.setAttribute("style","height:69vh; width:33.33%; display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white; overflow:hidden; z-index:1");
-        }
-      
-    }
-    function click2(ev)
-    {
-        
-        for(i=0 ;i< 4;i++)
-        {
-            var d=document.createElement("div");
-            d.id="four"+i;
-            d.ondblclick=divremove;
-            d.ondrop=drop;
-            d.ondragover=allowDrop;
-            document.getElementById("Canvas").appendChild(d);
-            d.setAttribute("style","height:69vh; width:25%; display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white; overflow:hidden; z-index:1");
-        }
-    
-    }
-    function click3(ev)
-    {
-        
-
-        for(i=0 ;i< 4;i++)
-        {
-            var d=document.createElement("div");
-            d.id="square_four"+i;
-            d.ondblclick=divremove;
-            d.ondrop=drop;
-            d.ondragover=allowDrop;
-            document.getElementById("Canvas").appendChild(d);
-            if( i==0 || i==1)
-                d.setAttribute("style","height:50%; width:50%; display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white;  overflow:hidden; z-index:1");
-            else
-                d.setAttribute("style","height:50%; width:50%; margin-top=35vh;  display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white;overflow:hidden; z-index:1");
-        }
-        
-    }
-    function image(ev)
-    {
-        
-        var btn=document.getElementById(ev.path[1].id);
-        var i=document.createElement("img");
-        i.id=ev.path[0].id+"0";
-        i.src=document.getElementById(ev.path[0].id).src;
-        btn.appendChild(i);
-    }
-    function drag(ev)
-    {
-       
-        var style = window.getComputedStyle(event.target, null);
-        var str = (parseInt(style.getPropertyValue("left")) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top")) - event.clientY) + ',' + event.target.id;
-        event.dataTransfer.setData("Text", str);
-      
-
-    }
-    function allowDrop(ev)
-    {
-        ev.preventDefault();//because cant be dropped into other elements by default
-    }
-   
-    function drop(ev)
-    {
-        ev.preventDefault();
-       var id = event.dataTransfer.getData('text').split(',');
-       var draggableElement = document.getElementById(id[2]); 
-        draggableElement.class="draggable";
-        var dropzone = ev.target;
-        draggableElement.ondblclick=divremove;
-        dropzone.appendChild(draggableElement);
-        if(draggableElement.id[0]=='b')
-            draggableElement.setAttribute("style","height:20%; width:20%; position:relative; z-index:2");
-        else
-            draggableElement.setAttribute("style","height:50%; width:50%; position:relative; z-index:1");
-        draggableElement.style.left = (event.clientX + parseInt(id[0],10)) + 'px';
-        draggableElement.style.top = (event.clientY + parseInt(id[1],10)) + 'px';
-        event.dataTransfer.clearData();
-        return false;
-        
-    }
-    function divremove(ev)
-    {
-        console.log(this);
-        ev.cancelBubble=true;
-        ev.preventDefault();
-        this.remove();
-     }
-   function reset(ev)
-   {
-       var t=confirm("DO YOU WANT TO RESET YOUR WORK?");
-       if(t==true)
-       document.getElementById("Canvas").innerHTML="";
-       
-
-   }
-    
-
-   function downloadURI(uri, name) {
-    var link = document.createElement("a");
-    link.download = name;
-    link.href = uri;
-    link.click();
-    
-    }
-
-    function printToFile() {
-        d=document.getElementById("Canvas");
-        html2canvas(d, { allowTaint : true,
-            onrendered: function (canvas) {
-                var myImage = canvas.toDataURL("image/png");
-                downloadURI("data:" + myImage, "yourImage.png");
-            },
-            
-        });
-    }
-    
-    function upload(event){
-        
-       // var l=document.createElement("label");
-       // l.class="custom-file-upload";
-
-        var i1=document.createElement("input");
-        i1.type="file";
-        i1.id="input_file";
-       
-       
-        var img1=document.createElement("img");
-        img1.id="myImg";
-        img1.src="#";
-        img1.setAttribute("style","height:inherit; width:inherit");
-
-        //l.innerHTML= "Custom Upload";
-       // l.appendChild(i1);
-        document.getElementById("Canvas").appendChild(i1);
-        document.getElementById("Canvas").appendChild(img1);
-       
-        
-        document.querySelector('input[type="file"]').addEventListener('change', function() {
-        if (this.files && this.files[0]) {
-            var img = document.querySelector('#myImg'); 
-            console.log(this.files[0]);
-            img.src = URL.createObjectURL(this.files[0]); 
-            img.onload = imageIsLoaded;
-    
-        }
-    });
-    }
-    function imageIsLoaded(e) { 
-        console.log(e.target);
-        //document.querySelector("#myImg").setAttribute('src', this.src);
-    }
-   
-    
     interact('.resize-drag')
   .resizable({
     // resize from all edges and corners
@@ -500,7 +342,7 @@
 
         target.setAttribute('data-x', x)
         target.setAttribute('data-y', y)
-        target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height)
+        // target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height)
       }
     },
     modifiers: [
@@ -511,7 +353,7 @@
 
       // minimum size
       interact.modifiers.restrictSize({
-        min: { width: 100, height: 50 }
+        min: { width: 50, height: 25 }
       })
     ],
 
@@ -527,5 +369,267 @@
       })
     ]
   })
+
+  // target elements with the "draggable" class
+interact('.draggable')
+  .draggable({
+    // enable inertial throwing
+    inertia: true,
+    // keep the element within the area of it's parent
+    modifiers: [
+      interact.modifiers.restrictRect({
+        restriction: 'parent',
+        endOnly: true
+      })
+    ],
+    // enable autoScroll
+    autoScroll: true,
+
+    listeners: {
+      // call this function on every dragmove event
+      move: dragMoveListener,
+
+      // call this function on every dragend event
+      end (event) {
+        var textEl = event.target.querySelector('p')
+
+        textEl && (textEl.textContent =
+          'moved a distance of ' +
+          (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
+                     Math.pow(event.pageY - event.y0, 2) | 0))
+            .toFixed(2) + 'px')
+      }
+    }
+  })
+
+function dragMoveListener (event) {
+  var target = event.target
+  // keep the dragged position in the data-x/data-y attributes
+  var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+  var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+
+  // translate the element
+  target.style.webkitTransform =
+    target.style.transform =
+      'translate(' + x + 'px, ' + y + 'px)'
+
+  // update the posiion attributes
+  target.setAttribute('data-x', x)
+  target.setAttribute('data-y', y)
+}
+
+// this function is used later in the resizing and gesture demos
+window.dragMoveListener = dragMoveListener
+</script>
+
+<script>
+
+    function click1(ev)
+    {
+       mainDiv = document.createElement("div");
+        mainDiv.setAttribute("style", "height: 100%; width: 100%;");
+
+        var id=ev.target.id;
+
+        if(id=="imgrid1"){
+        
+        for(i=0 ;i< 3;i++)
+        {
+            var d=document.createElement("div");
+            d.id="three"+i;
+            d.ondblclick=divremove;
+            d.ondrop=drop;
+            d.ondragover=allowDrop;
+            mainDiv.appendChild(d);
+            document.getElementById("Canvas").appendChild(d);
+            d.setAttribute("style","height:100%; width:33.33%; display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white; overflow:hidden; z-index:1");
+        }
+        }
+        if(id=="imgrid2"){
+        for(i=0 ;i< 4;i++)
+        {
+            var d=document.createElement("div");
+            d.id="four"+i;
+            d.ondblclick=divremove;
+            d.ondrop=drop;
+            d.ondragover=allowDrop;
+            mainDiv.appendChild(d);
+            document.getElementById("Canvas").appendChild(d);
+            d.setAttribute("style","height:100%; width:25%; display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white; overflow:hidden; z-index:1");
+        }
+        }
+        if(id=="imgrid3"){
+        document.getElementById("Canvas").setAttribute("style","height:79vh");
+        for(i=0 ;i< 4;i++)
+        {
+            var d=document.createElement("div");
+            d.id="square_four"+i;
+            d.ondblclick=divremove;
+            d.ondrop=drop;
+            d.ondragover=allowDrop;
+            mainDiv.appendChild(d);
+            document.getElementById("Canvas").appendChild(d);
+            if( i==0 || i==1)
+                d.setAttribute("style","height:50%; width:50%; display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white;  overflow:hidden; z-index:1");
+            else
+                d.setAttribute("style","height:50%; width:50%; margin-top=35vh;  display:inline-block; border-radius:1vh;border: 0.3vw solid #000000; background-color: white;overflow:hidden; z-index:1");
+        }
+    }
+    }
+    
+    function image(ev)
+    {
+        
+        var btn=document.getElementById(ev.path[1].id);
+        var i=document.createElement("img");
+        i.id=ev.path[0].id+"0";
+        i.draggable=true;
+        i.ondragstart=drag;
+        //i.ondragover=allowDrop;
+        i.src=document.getElementById(ev.path[0].id).src;
+        btn.appendChild(i);
+
+    }
+    function drag(ev)
+    {
+       
+        var style = window.getComputedStyle(event.target, null);
+        var str = (parseInt(style.getPropertyValue("left")) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top")) - event.clientY) + ',' + event.target.id;
+        event.dataTransfer.setData("Text", str);
+      
+
+    }
+    function allowDrop(ev)
+    {
+        ev.preventDefault();//because cant be dropped into other elements by default
+    }
+   
+    function drop(ev)
+    {
+        console.log(ev.target);
+        ev.preventDefault();
+        var image = document.getElementById((ev.dataTransfer.getData('text').split(','))[2]); //console.log(image.id[0]);
+        var dropzone = ev.target;
+        parentDiv = document.createElement("div");
+        parentDiv.ondblclick=divremove;
+        parentDiv.append(image);
+        parentDiv.setAttribute("class", "resize-drag");
+        image.setAttribute("style", "height:100%; width:100%; position:relative;")
+        dropzone.appendChild(parentDiv);
+        if(image.id[0]!='b')
+            parentDiv.setAttribute("style","position:relative; height:50%; width:50%; z-index:1");
+            else {
+            parentDiv.setAttribute("style","position:relative; height:20%; width:20%; z-index:2; display: flex; align-items: center; justify-content: center;");
+            var form= document.createElement("form");
+            var io= document.createElement("input");
+            io.type="text";
+            form.appendChild(io);
+            parentDiv.appendChild(form);
+            form.setAttribute("style", "");
+            io.addEventListener("keypress", function(event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    h5 = document.createElement("h5");
+                    h5.innerHTML = io.value;
+                    h5.setAttribute("style", "position: absolute;")
+                    parentDiv.removeChild(form);
+                    parentDiv.appendChild(h5);
+                }
+            });  
+        }
+        var rect = dropzone.getBoundingClientRect();
+        var xPosition = ev.clientX - rect.left - (image.clientWidth / 2);
+        var yPosition = ev.clientY - rect.top - (image.clientHeight / 2);
+        parentDiv.style.left = xPosition + "px";
+        parentDiv.style.top = yPosition + "px";
+        event.dataTransfer.clearData();
+        return false;
+        
+    }
+
+    function divremove(ev)
+    {
+        console.log(this);
+        ev.cancelBubble=true;
+        ev.preventDefault();
+        this.remove();
+     }
+   function reset(ev)
+   {
+       var t=confirm("DO YOU WANT TO RESET YOUR WORK?");
+       if(t==true)
+       document.getElementById("Canvas").innerHTML="";
+       
+
+   }
+    
+
+   function downloadURI(uri, name) {
+    var link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    link.click();
+    
+    }
+    function printToFile() {
+        // d=document.getElementById("Canvas");
+        // html2canvas(d, { allowTaint : true,
+        //     onrendered: function (canvas) {
+        //         var myImage = canvas.toDataURL("image/png");
+        //         downloadURI("data:" + myImage, "yourImage.png");
+        //     },
+            
+        // });
+        
+        c=document.getElementById("Canvas");
+        html2canvas(c, {
+            onrendered: function (canvas) {
+                // toDataURL defaults to png, so we need to request a jpeg
+                image_data = canvas.toDataURL('image/png');
+                document.getElementById("id_image_data").value = image_data;
+                console.log(image_data);
+                form = document.getElementById("comic_form");
+                form.submit();
+                // $('#id_image_data').val(image_data);
+                // $('#agreement_form').submit();
+            }
+        });
+    }
+    
+    function upload(event){
+        
+        var canvas=document.querySelector("#Canvas");
+        if(canvas.innerHTML!="")
+            reset(event);
+
+        var i1=document.createElement("input");
+        i1.type="file";
+        i1.id="input_file";
+       
+       
+        var img1=document.createElement("img");
+        img1.id="myImg";
+        img1.src="#";
+        img1.setAttribute("style","height:inherit; width:inherit");
+
+        document.getElementById("Canvas").appendChild(i1);
+        document.getElementById("Canvas").appendChild(img1);
+       
+        
+        document.querySelector('input[type="file"]').addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            var img = document.querySelector('#myImg'); 
+            img.src = URL.createObjectURL(this.files[0]); 
+            img.onload = imageIsLoaded;
+    
+        }
+    });
+    }
+    function imageIsLoaded(e) { 
+        i1=document.getElementById("input_file");
+        document.getElementById("Canvas").removeChild(i1);
+       
+    }
+   
 
 </script>

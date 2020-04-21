@@ -40,11 +40,16 @@ class ComicForm(forms.Form):
 # 	class Meta:
 # 		model = Comment
 
-# # Search existing comic strips
-# class SearchForm(forms.ModelForm):
-# 	class Meta:
-# 		model = ComicStrip
+# Search existing comic strips
+class SearchForm(forms.ModelForm):
+	class Meta:
+		model = ComicStrip
+		fields = ['title']
 
+class ArtistForm(forms.ModelForm):
+	class Meta:
+		model = Artist
+		fields = ['gender','age','profile_picture']
 
 class CreateUserForm(UserCreationForm):
 	class Meta:

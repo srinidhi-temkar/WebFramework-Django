@@ -9,15 +9,11 @@ import os
 gender_choices = [("M", "Male"), ("F", "Female"), ("O", "Others")]
 class Artist(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	# username = models.CharField(max_length = 16, primary_key = True)
-	# first_name = models.CharField(max_length = 16)
-	# last_name = models.CharField(max_length = 16)
 	gender = models.CharField(max_length = 6, choices = gender_choices, blank = True)
-	# email = models.EmailField(max_length = 256)
-	age = models.PositiveIntegerField(validators = [MinValueValidator(10), MaxValueValidator(120)])
+	age = models.PositiveIntegerField(null = True, validators = [MinValueValidator(10), MaxValueValidator(120)])
 	profile_picture = models.ImageField(upload_to = 'Skribbly/Profile Pictures/', blank = True) #height_field #width_field
 	date_joined = models.DateTimeField(default = timezone.now)
-	favorites = models.ManyToManyField('ComicStrip', related_name = 'favorites', null = True)
+	favorites = models.ManyToManyField('ComicStrip', related_name = 'favorites')
 
 	def __str__(self):
 		return self.user.username
@@ -36,7 +32,7 @@ class ComicStrip(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'comic_strips')
 	title = models.CharField(max_length = 64)
 	created_on = models.DateTimeField(default = timezone.now)
-	likes = models.ManyToManyField(User, related_name = 'likes', null = True)
+	likes = models.ManyToManyField(User, related_name = 'likes')
 
 	def __str__(self):
 		return self.title
@@ -53,8 +49,8 @@ class Comment(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'comments')
 	comic_strip = models.ForeignKey(ComicStrip, on_delete = models.CASCADE, related_name = 'comments')
 	added_on = models.DateTimeField(default = timezone.now)
-	upvotes = models.ManyToManyField(User, related_name = 'upvotes', null = True)
-	downvotes = models.ManyToManyField(User, related_name = 'downvotes', null = True)
+	upvotes = models.ManyToManyField(User, related_name = 'upvotes')
+	downvotes = models.ManyToManyField(User, related_name = 'downvotes')
 
 	def __str__(self):
 		return self.comment
