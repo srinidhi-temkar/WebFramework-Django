@@ -13,12 +13,14 @@
         }
         /* Style the body */
         
+        
         body {
             font-family: 'Cabin';
             margin: 0;
             background-image: url({% static 'images/bg8.jpg'%});
             background-repeat: no-repeat;
-            background-size: cover;
+            background-size:cover;
+            
         }
         /* Header/logo Title */
         /* Increase the font size of the heading */
@@ -57,15 +59,15 @@
         }
         
         .side {
-            -ms-flex: 20%;
-            flex: 20%;
+            -ms-flex: 10%;
+            flex: 10%;
             color: white;
             background-color: rgb(46, 46, 46);
             padding: 20px;
         }
         
         .main {
-            -ms-flex: 70%;
+            -ms-flex: 80%;
             flex: 70%;
             padding: 20px;
         }
@@ -114,6 +116,7 @@
             <h2>{{ user.username }}</h2>
             {% if user.artist.profile_picture %}
                 <img src="{{ user.artist.profile_picture.url }}" alt="Add Profile Picture" style="height:30%;width:75%">
+                <!-- <img src="{{ user.artist.profile_picture.url }}" alt="Add Profile Picture" style="height:125px;width:125px"> -->
             {% else %}
                 <img src="/media/Skribbly/Profile Pictures/default.jpg" alt="Add Profile Picture" style="height:30%;width:75%">
             {%endif%}
@@ -122,30 +125,42 @@
 		
 	</div>
 	<div class="main">
-		<h2>Comic Posts</h2>
-		
-				<img src='{% static "images/comic2dem.jpg" %}' alt="Mike" style="width:50%">
-				<div class="containerprof">
+        <h1 id="h1" style="font-family: Arial, Helvetica, sans-serif; text-align:center">COMICS</h1>
+        {%block content%}
+                {% for comic in comics %}
+                    <h4 id="h4">{{comic.title}}</h4>
+                    <img src='{{ comic.strip_image.url }}' alt="Posts" style="width:50%;height:25%">
+                {% endfor %}
+				<!--<div class="containerprof">
 						<textarea  rows="5" cols="61" name="comment" form="usrform" placeholder="Comment" style=" border: 5px solid rgb(51, 48, 48);"></textarea>
 				
-				</div>
-		
-	</div>
-</div>
+				</div>-->
+		{%endblock%}
+    </div>
+    </div>
+
 
 
 <script>
             var bgtheme=document.getElementsByTagName("body");
+            var h1=document.getElementById("h1");
+            var h4=document.getElementsByTagName("h4");
               function changebg()
               {
                   
-                  bgtheme[0].style.backgroundImage="url({% static 'images/newbg1.jpg'%})";
-                  localStorage.setItem("bgimg","url({% static 'images/newbg1.jpg'%})");
+                  bgtheme[0].style.backgroundImage="url({% static 'images/dark.jpg'%})";
+                  localStorage.setItem("bgimg","url({% static 'images/dark.jpg'%})");
+                  h1.style.color="white";
+                  for(i=0;i<h4.length;i++)
+                    h4[i].style.color="white";
               }
               function nochangebg(){
                 
                 bgtheme[0].style.backgroundImage="url({% static 'images/bg8.jpg'%})";
                 localStorage.setItem("bgimg","url({% static 'images/bg8.jpg'%})");
+                h1.style.color="black";
+                for(i=0;i<h4.length;i++)
+                    h4[i].style.color="black";
 
               }
               
@@ -159,6 +174,8 @@
                 body.style.background=localStorage.getItem("bgimg");
                
               }
+
+              
 
 </script>
 

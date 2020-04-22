@@ -31,15 +31,24 @@
             <div class="topnav">
                 <a href="{% url 'gallery' %}">Gallery</a>
                 <a href="{% url 'tutorial' %}">Tutorial</a>
+                {% if user.email %}
+                <a href="{% url 'logout'%}">Logout</a>
+                <a href="{% url 'profile' user%}">Profile</a>
+               
+                {% else %}
                 <a href="{% url 'login'%}">Login</a>
                 <a href="{% url 'register'%}">Sign-Up</a>
+               
+                {%endif%}
             
             </div>
         </div>
     </div>
-
+    {% if user.email %}
+    <button class="workspacebut" onclick="location.href={% url 'canvas' %}"> Create your own Comic Strip</button>
+    {% else %}
     <button class="workspacebut" onclick="location.href={% url 'login' %}"> Create your own Comic Strip</button>
-
+    {% endif %}
     <div class="centerheading">
         <h1 style="font-size:7vw;">SKRIBBLY</h1>
     </div>

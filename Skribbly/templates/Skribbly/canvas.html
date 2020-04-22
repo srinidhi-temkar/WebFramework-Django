@@ -69,6 +69,7 @@
     .topnav #menu1:hover {
         display: block;
     }
+
     
     #Canvas{
         margin-left: 10vw;
@@ -249,7 +250,10 @@
                 <a class="nav-link" href="{% url 'tutorial' %}">Tutorial</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" style="margin-right: 10vw;" href="{% url 'index'%}">Sign Out</a>
+                <a class="nav-link" href="{% url 'profile' user %}">Profile</a>
+            </li>
+            <li class="nav-item" style="float:right;">
+                <a class="nav-link"  href="{% url 'logout'%}">Logout</a>
             </li>
         </ul>
     </nav>
@@ -584,11 +588,14 @@ window.dragMoveListener = dragMoveListener
         c=document.getElementById("Canvas");
         html2canvas(c, {
             onrendered: function (canvas) {
+                // toDataURL defaults to png, so we need to request a jpeg
                 image_data = canvas.toDataURL('image/png');
                 document.getElementById("id_image_data").value = image_data;
                 console.log(image_data);
                 form = document.getElementById("comic_form");
                 form.submit();
+                // $('#id_image_data').val(image_data);
+                // $('#agreement_form').submit();
             }
         });
     }

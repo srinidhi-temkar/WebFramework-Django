@@ -26,9 +26,6 @@
             font-size: 16px;
             color: white;
             background-color: black;
-            background-image: url("{% static 'images/searchicon.png' %}");
-            background-position: 10px 10px;
-            background-repeat: no-repeat;
             padding: 12px 20px 12px 40px;
             -webkit-transition: width 0.4s ease-in-out;
             transition: width 0.4s ease-in-out;
@@ -40,15 +37,19 @@
         }
         
         hr.newline {
-            border: 10px solid black;
+            border: 5px solid black;
             border-radius: 5px;
         }
         
         .column {
-            float: left;
+            
             width: 33.3%;
-            margin-bottom: 16px;
-            padding: 0 8px;
+            position: absolute;
+            top:28%;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
         }
         
         @media screen and (max-width: 650px) {
@@ -139,10 +140,10 @@
 	{% block content %}
 
     <div class="topnav">
-        <a href="{% url 'index' %}"><i class="arrow left"></i>Back</a>
+        <a href="{% url 'gallery' %}"><i class="arrow left"></i>Back</a>
         <a href="{% url 'tutorial' %}">Tutorial</a>
         {% if user.email %}
-        <a href="{% url 'profile' user %}">Profile</a>
+        <a href="{% url 'profile' user=user %}">Profile</a>
         <a href="{% url 'canvas' %}">Workspace</a>
         {% else %}
         <a href="{% url 'login' %}">Login</a>
@@ -150,28 +151,28 @@
         {% endif %}
     </div>
     <br>
-    <br>    
+    <br>
+    <br>
+    <br>
     <div>
-    <form method="POST">
+    <!--<form method="POST">
 		{%csrf_token%} 
 		{{ form.as_p }}
         <button class='sbtn' type="submit" placeholder="Search"> Search </button>	
         
     </form>
+-->
 </div>
     <hr class="newline">
 	
 		{%for i in ComicStrips%}
         <div class="column" id="column">
             <div class="card">
-                <img class="posts" src="{{i.strip_image.url}}" alt="{{i.strip_image}}" style="width:100% ;height:200px">
+                <img class="posts" src="{{i.strip_image.url}}" alt="{{i.strip_image}}" style="width:100% ;height:250px">
                 <div class="container">
                     <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: medium; padding-top: 5px;" >{{i.title}}</h2>
                     <p class="title" >{{i.user}}</p>
-                    <p><button class="button" onclick="location.href='{% url 'profile' i.user %}'">See Profile</button></p>
-                    <p><button class="button" onclick="location.href='{% url 'comments' %}'">COMMENT</button></p>                    <h2>{{i.title}}</h2>
-                    <p class="title">{{i.user}}</p>
-
+                    <p><button class="button" onclick="location.href='{% url 'index' %}'">COMMENT</button></p>
                 </div>
             </div>
         </div>

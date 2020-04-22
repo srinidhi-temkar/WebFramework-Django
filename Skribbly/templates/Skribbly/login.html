@@ -48,7 +48,7 @@
 
 		.login_btn {
 			width: 100%;
-			background: #33ccff !important;
+			background:#37b6bf !important;
 			color: white !important;
 		}
 		.login_btn:focus {
@@ -59,7 +59,7 @@
 			padding: 0 2rem;
 		}
 		.input-group-text {
-			background: #f7ba5b !important;
+			background:#f2b24b!important;
 			color: white !important;
 			border: 0 !important;
 			border-radius: 0.25rem 0 0 0.25rem !important;
@@ -76,52 +76,67 @@
 			padding: 10px;
 			margin-top: 10px;
 		}
+		a{
+            display: block;
+            font-family:Arial, sans-serif;
+            text-decoration: none;
+            color:#666564;
+			padding-left: 23%;
+        
+            
+            }
+		a:hover {
+			color:#363534;
+		}
 	</style>
 
 </head>
 <body>
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
-			<div class="user_card">
+			<div class="user_card" style="height: 60%;">
 				<div class="d-flex justify-content-center">
 
 
-					<h2 id="form-title">WELCOME BACK</h2>
+					<h2 id="form-title" style="font-family: sans-serif;">Welcome Back!</h2>
 				</div>
-				<div class="d-flex justify-content-center form_container">
+				<div class="d-flex justify-content-center form_container" style="height:40%">
 					<form method="POST" action="">
 						{% csrf_token %}
 						<div class="input-group mb-3">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="text" name="username" placeholder="Username..." class="form-control">
+							<input type="text" name="username" placeholder="Username" class="form-control">
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-								<input type="password" name="password" placeholder="Password..." class="form-control" >
+								<input type="password" name="password" placeholder="Password" class="form-control" >
 						</div>
 
 							<div class="d-flex justify-content-center mt-3 login_container">
-				 				<input class="btn login_btn" type="submit" value="Login">
+				 				<input class="btn login_btn" type="submit" value="Login" style="background-color:#37afb8;">
 				   			</div>
 					</form>
-
+					
 				</div>
 				{% for message in messages %}
-					<p id="messages">{{message}}</p>
+				<p id="messages">{{message}}</p>
 				{% endfor %}
-				<div class="mt-4">
-					<div class="d-flex justify-content-center links">
-						Don't have an account? <a href="{% url 'register' %}" class="ml-2">Sign Up</a>
-					</div>
-			
+
+				<div class="mt-4" >
+						
+						<a href="{% url 'register' %}" class="ml-2" >Don't have an account?</a>
+						
+						<a href="{% url 'index' %}" class="ml-2" style="padding-left: 42%;">Back</a>
 				</div>
 			</div>
 		</div>
+		
 	</div>
 </body>
-
+<script>
+</script>
 </html>

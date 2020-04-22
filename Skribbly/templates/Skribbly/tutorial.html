@@ -113,8 +113,13 @@
     <div class="navbar">
         <a onclick="location.href='{%url 'index' %}'">Home</a>
         <a onclick="location.href='{%url 'gallery' %}'">Gallery</a>
+        {% if user.email %}
+        <a onclick="location.href='{%url 'canvas' %}'">Workspace</a>
+        <a onclick="location.href='{%url 'profile' user %}'">Go to your profile</a>
+        {% else %}
         <a onclick="location.href='{%url 'login' %}'">Workspace</a>
         <a onclick="location.href='{%url 'login' %}'">Go to your profile</a>
+        {% endif %}
         <a href="#" class="right" onclick="changetheme()">Night mode</a>
         <a href="#" class="right" onclick="nochange()">Light mode</a>
     </div>
