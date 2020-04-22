@@ -586,18 +586,35 @@ window.dragMoveListener = dragMoveListener
         // });
         
         c=document.getElementById("Canvas");
-        html2canvas(c, {
-            onrendered: function (canvas) {
-                // toDataURL defaults to png, so we need to request a jpeg
-                image_data = canvas.toDataURL('image/png');
-                document.getElementById("id_image_data").value = image_data;
-                console.log(image_data);
-                form = document.getElementById("comic_form");
-                form.submit();
-                // $('#id_image_data').val(image_data);
-                // $('#agreement_form').submit();
-            }
-        });
+        if(c.firstChild.type == "image") {
+            img=c.firstChild;
+            // Create canvas
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            // Set width and height
+            canvas.width = img.width;
+            canvas.height = img.height;
+            // Draw the image
+            ctx.drawImage(img, 0, 0);
+            image_data = canvas.toDataURL('image/png');
+            document.getElementById("id_image_data").value = image_data;
+            console.log(image_data);
+            form = document.getElementById("comic_form");
+            form.submit();
+        } else {
+            html2canvas(c, {
+                onrendered: function (canvas) {
+                    // toDataURL defaults to png, so we need to request a jpeg
+                    image_data = canvas.toDataURL('image/png');
+                    document.getElementById("id_image_data").value = image_data;
+                    console.log(image_data);
+                    form = document.getElementById("comic_form");
+                    form.submit();
+                    // $('#id_image_data').val(image_data);
+                    // $('#agreement_form').submit();
+                }
+            });
+        }
     }
     
     function upload(event){
@@ -613,6 +630,7 @@ window.dragMoveListener = dragMoveListener
        
         var img1=document.createElement("img");
         img1.id="myImg";
+        img1.type = "image";
         img1.src="#";
         img1.setAttribute("style","height:inherit; width:inherit");
 
