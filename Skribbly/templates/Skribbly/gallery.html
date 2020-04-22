@@ -125,12 +125,12 @@
             transform: rotate(135deg);
             -webkit-transform: rotate(135deg);
         }
-		.search{
+		/* .search{
 			margin:auto;
 			width:50%;
 			padding:10px;
-			 text-align: center;
-		}
+            text-align: center;
+		} */
     </style>
 </head>
 
@@ -147,7 +147,7 @@
     <br>
     <form method="POST">
 		{%csrf_token%} <!cross site request forgery-to avoid it>
-			<div class="search">{{ form1.as_p }}</div>
+			<div class="search">{{ form.as_p }}</div>
         <button class='button' type="submit" placeholder="Search.."> Search </button>	
 		
     </form>

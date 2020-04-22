@@ -9,8 +9,6 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
-
-
 # Create your views here.
 def home(request):
 	return render(request,'Skribbly/index.html')

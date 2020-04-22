@@ -584,14 +584,11 @@ window.dragMoveListener = dragMoveListener
         c=document.getElementById("Canvas");
         html2canvas(c, {
             onrendered: function (canvas) {
-                // toDataURL defaults to png, so we need to request a jpeg
                 image_data = canvas.toDataURL('image/png');
                 document.getElementById("id_image_data").value = image_data;
                 console.log(image_data);
                 form = document.getElementById("comic_form");
                 form.submit();
-                // $('#id_image_data').val(image_data);
-                // $('#agreement_form').submit();
             }
         });
     }
