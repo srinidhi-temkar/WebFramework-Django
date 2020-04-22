@@ -54,7 +54,15 @@ def register(request):
 	return render(request,'Skribbly/register.html',context)
 	
 def gallery(request):
-	return render(request,'Skribbly/gallery.html')
+	ComicStrips=ComicStrip.objects.all()
+	if(request.method=="POST"):
+		form=SearchForm(request.POST)
+		if(form.is_valid()):
+			ComicStrips=ComicStrip.objects.filter(Q(title=request.POST.get('title','')))
+			return render(request,"Skribbly/gallery.html",{'form':form,'ComicStrips':ComicStrips})
+	else:
+		form=SearchForm()
+		return render (request,"Skribbly/gallery.html",{'form':form,'ComicStrips':ComicStrips})
 	
 def tutorial(request):
 	return render(request,'Skribbly/tutorial.html')
@@ -102,14 +110,3 @@ def edit_profile(request):
 # 		return self.profile_picture.url
 	
 # 	return "/images/profdem.jpg"
-
-# def comicsearch(request):
-# 	ComicStrips=ComicStrip.objects.all()
-# 	if(request.method=="POST"):
-# 		form1=SearchForm(request.POST)
-# 		if(form1.is_valid()):
-# 			ComicStrips=ComicStrip.objects.filter(Q(title=request.POST.get('title','')))
-# 			return render(request,"webframeworks/comicsearch.html",{'form1':form1,'ComicStrips':ComicStrips})
-# 	else:
-# 		form1=SearchForm()
-# 		return render(request,"webframeworks/comicsearch.html",{'form1':form1,'ComicStrips':ComicStrips})
