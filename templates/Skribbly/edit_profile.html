@@ -1,0 +1,36 @@
+{% load static %}
+<head>
+	<style>
+		body{
+		 background-image: url({% static 'images/bg3.jpg' %});
+        background-repeat: no-repeat;
+        background-size: 100% ;
+		}
+	</style>
+</head>
+<body>
+	<div id="div1" style="margin-top:12%; margin-left:32%; background-color: snow;width:30%; height:50%; text-align: center;border: solid;border-radius: 3%;">
+		<h1 style="font-size: 30px;font-family: sans-serif;"> Create your profile!</h1>
+		<div>
+			<form method=POST enctype="multipart/form-data">
+			{%csrf_token%} <!cross site request forgery-to avoid it>
+			<label style="font-size: 105%;font-family: sans-serif;display: block;"><b>Gender</b></label>
+			{{form.gender}}</br>
+			<br>
+            <label style="font-size: 105%;font-family: sans-serif;display: block;"><b>Age</b></label>
+			{{form.age}}</br>
+			<br>
+            <label style="font-size: 105%;font-family: sans-serif;display: block;"><b>Profile Picture</b></label>
+            {{form.profile_picture}}</br>
+			
+			<br>
+			<button type="submit" style="font-size: 110%;border-radius: 5%;"> Save </button>
+			
+			</div>
+		</div>
+</body>
+<script>
+
+</script>
+
+	
