@@ -1,0 +1,55 @@
+/* Parent Container */
+.votes{
+ position: relative;
+ width: 200px;
+ height: 200px;
+ float: left;
+ margin-right: 10px;
+}
+
+/* Child Text Container */
+.votes p{
+ position: absolute;
+ bottom: 0;
+ right: 0;
+ background: black;
+ color: white;
+ margin-bottom: 5px;
+ font-family: sans-serif;
+ opacity: 0;
+ visibility: hidden;
+ -webkit-transition: visibility 0s, opacity 0.5s linear; 
+ transition: visibility 0s, opacity 0.5s linear;
+}
+
+/* Hover on Parent Container */
+.votes:hover{
+ cursor: pointer;
+}
+
+.votes:hover p{
+ width: 150px;
+ padding: 8px 15px;
+ visibility: visible;
+ opacity: 0.7; 
+}
+
+
+
+<!-- Image 1 -->
+<div class="content_img">
+ <img src='image1.jpg' width='100%' height='100%'>
+ <div>Image 1 Text</div>
+</div>
+
+<!-- Image 2 -->
+<div class="content_img">
+ <img src='image2.jpg' width='100%' height='100%'>
+ <div>Image 2 Text</div>
+</div>
+
+<!-- Image 3 -->
+<div class="content_img">
+ <img src='image3.jpg' width='100%' height='100%'>
+ <div>Image 3 Text</div> 
+</div>

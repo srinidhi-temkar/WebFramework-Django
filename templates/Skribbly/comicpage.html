@@ -1,0 +1,55 @@
+{% extends 'Skribbly/base.html' %}
+{%load static%}
+
+{% block content %}
+
+        <div class="column" id="column"style=" margin-left: 35%;" >
+            <div class="card"  >
+                <h2 id="h2"  >{{comic.title}}</h2>
+                <img class="posts" src="{{comic.strip_image.url}}" alt="{{comic.strip_image}}" style="width:100% ;height:200px" >
+
+                
+                <div class="div1"> 
+                    <button id="like"><img id="like_img" src="{% static 'images/thumbsc.jpg' %}" onclick="changelike(event)"></button>
+                    <button id="fav"><img id="fav_img" src="{% static 'images/favo.png' %}" onclick="changefav(event)"></button>
+                </div>
+
+                <div class="container" style="font-family: cursive;">
+                    <p class="title" style="margin-top: 0.01%;"><a href="{% url 'profile' comic.user %}" style="color: white;">{{comic.user}}</a></p>
+                     {% for j in comic.comments.all reversed %}
+                       
+                        <hr style="width:90%">
+
+                    <div id='commentbox'> 
+                        <p><img id='pic'class='pic' src="{{ j.user.artist.profile_picture.url }}" ></p>
+
+                        <p id='cmnt_txt'>{{j.user}}: {{j.comment}} {% if j.edited %} edited {% endif %}</p>
+
+                        <div id='pup' class="votes">
+                            <img id='up' class='pic' src="{% static 'images/thumbsup.png' %}">
+                            <p style="left:21.7vw">{{j.upvotes.count}}</p>
+                        </div>
+
+                        <div id='pdown' class="votes">
+                            <img id='down' class='pic' src="{% static 'images/thumbsdown.jpg' %}">
+                            <p style="left:23.7vw">{{j.downvotes.count}}</p>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div id="commentbox">
+                        <form id="cmnt_txt" method="POST">
+                                {%csrf_token%} 
+                                    {{cform.comment}}
+                                <button type="submit" id="fbtn">ADD</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    {%endblock%}
+
+
+        

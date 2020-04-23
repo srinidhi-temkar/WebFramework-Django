@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <style>
+        #votes{
+            height: 6vh;
+            width: 7vh;
+        }
+        img{
+            height: 5vh;
+            width: 5vh;
+        }
+    </style>
+</head>
+<body>
+    
+    <div>
+        <form method="POST">
+        {%csrf_token%} 
+        <label for=comment>Comment</label>
+            {{form.comment}}
+        <br>
+        <label for=edited>Edited</label>
+            {{form.edited}}
+        <br>
+        <label for=added_on>Added_on</label>
+            {{form.added_on}}
+        <br>
+        <button id="votes" ><img src="{%static 'images/thumbsup.png' %}" ></button>
+            {{form.upvotes}}
+        <br>
+        <button id="votes"><img src="{%static 'images/thumbsdown.jpg' %}" ></button>
+            {{form.downvotes}}
+
+        <button onclick = 'submit()'>Save</button>
+        </form>
+    </div>
+    
+    <script>
+        form = document.getElementById("id_form");
+        form.user = "{{user}}"
+
+        form.submit();
+    </script>
+    
+ 
+
+</body>
+</html>
+
