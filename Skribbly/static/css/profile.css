@@ -1,0 +1,152 @@
+.column {
+    float: center;
+    width: 50%;
+    margin-bottom: 16px;
+    padding: 0 8px;
+    margin-left: 25%;
+    
+}
+
+@media screen and (max-width: 650px) {
+    .column {
+        width: 100%;
+        display: block;
+    }
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+   
+}
+
+
+.container::after,
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.title {
+    color: grey;
+}
+
+.posts:hover {
+    transform: scale(1.1) translate3d(30px, 30px, 30px);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+.container{
+    background-color:black;
+}
+.div1 {
+    background-color:black;
+    display: flex;
+    align-items: center;
+   
+    height:30px;
+
+}
+
+.pic{
+    position:absolute;
+    width:2vw;
+    height:4vh;
+    border-radius: 50%;
+    left:2%;
+    
+}
+
+#like,#fav {
+ 
+    padding:0.5px 1px;
+    
+}
+#like{
+    margin-left: 0%;
+}
+#fav{
+    
+    margin-left: 86.5%;
+}
+#like_img
+{  
+    height:3vh;
+    width:2vw;
+}
+#fav_img
+{   
+    height:3vh;
+    width:2vw;
+}
+#h2 {
+    font-family: Arial, Helvetica, sans-serif; 
+    font-size: medium; 
+    text-align: center;
+    color:white;
+    
+}
+#fbtn{
+    position:absolute;
+    right:2%; 
+}
+#commentbox{
+    display: flex;
+    position: relative;
+}
+
+
+#cmnt_txt{
+    margin-left: 12%;
+    color:white;
+    
+}
+#up{
+    position:absolute;
+    left: 85%;
+    
+
+}
+#down{
+    position:absolute;
+    left: 92%;
+    
+
+}
+
+/* Parent Container */
+    .votes{
+    
+    margin-top: 2vh;
+    }
+
+    /* Child Text Container */
+    .votes p{
+    position: absolute;
+    bottom: 0;
+    font-size: smaller;
+    /*background: rgb(146, 49, 49);*/
+    color: white;
+    margin-bottom: 0.5px;
+    font-family: sans-serif;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: visibility 0s, opacity 0.5s linear; 
+    transition: visibility 0s, opacity 0.5s linear;
+    }
+
+    /* Hover on Parent Container */
+    .votes:hover{
+    cursor: pointer;
+    }
+
+    .votes:hover p{
+    width: 150px;
+   /* padding: 8px 15px;*/
+    visibility: visible;
+    opacity: 1; 
+    }
+
