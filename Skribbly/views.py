@@ -98,13 +98,5 @@ def edit_profile(request):
 			form = ArtistForm(instance=user.artist)
 	else:
 		form = ArtistForm(instance=user.artist)
-	
-	return render(request,'Skribbly/edit_profile.html',{ 'form': form})
 
-# @property
-#doesn't work as it returns an object
-# def profile_picture_url(self):
-# 	if self.profile_picture and hasattr(self.profile_picture,'url'):
-# 		return self.profile_picture.url
-	
-# 	return "/images/profdem.jpg"
+	return render(request,'Skribbly/edit_profile.html',{ 'form': form})

@@ -32,7 +32,7 @@ class ComicStrip(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'comic_strips')
 	title = models.CharField(max_length = 64)
 	created_on = models.DateTimeField(default = timezone.now)
-	likes = models.ManyToManyField(User, related_name = 'likes')
+	likes = models.ManyToManyField(User, related_name = 'likes', blank = True)
 
 	def __str__(self):
 		return self.title
@@ -49,8 +49,8 @@ class Comment(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'comments')
 	comic_strip = models.ForeignKey(ComicStrip, on_delete = models.CASCADE, related_name = 'comments')
 	added_on = models.DateTimeField(default = timezone.now)
-	upvotes = models.ManyToManyField(User, related_name = 'upvotes')
-	downvotes = models.ManyToManyField(User, related_name = 'downvotes')
+	upvotes = models.ManyToManyField(User, related_name = 'upvotes', blank = True)
+	downvotes = models.ManyToManyField(User, related_name = 'downvotes', blank = True)
 
 	def __str__(self):
 		return self.comment

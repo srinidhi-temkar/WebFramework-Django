@@ -158,7 +158,7 @@
         <button class='sbtn' type="submit" placeholder="Search"> Search </button>	
         
     </form>
-</div>
+    </div>
     <hr class="newline">
 	
 		{%for i in ComicStrips%}
@@ -170,6 +170,12 @@
                     <h2>{{i.title}}</h2>
                     <p class="title" >{{i.user}}</p>
                     <p><button class="button" onclick="location.href='{% url 'profile' i.user %}'">See Profile</button></p>
+                    {% for j in i.comments.all %}
+                        <hr>
+                        <p>{{j.user}}: {{j.comment}} {% if j.edited %} edited {% endif %}</p>
+                        <p>{{j.added_on}}</p>
+                        <p>upvotes: {{j.upvotes.count}} downvotes: {{j.downvotes.count}} </p>
+                    {% endfor %}
                     <p><button class="button" onclick="location.href='{# % url 'comments' % #}'">COMMENT</button></p>                    
                     <!-- <h2>{{i.title}}</h2>
                     <p class="title">{{i.user}}</p> -->
