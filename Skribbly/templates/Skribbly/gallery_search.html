@@ -143,7 +143,7 @@
         <a href="{% url 'gallery' %}"><i class="arrow left"></i>Back</a>
         <a href="{% url 'tutorial' %}">Tutorial</a>
         {% if user.email %}
-        <a href="{% url 'profile' user=user %}">Profile</a>
+        <a href="{% url 'profile' user %}">Profile</a>
         <a href="{% url 'canvas' %}">Workspace</a>
         {% else %}
         <a href="{% url 'login' %}">Login</a>

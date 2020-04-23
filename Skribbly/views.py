@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.forms import forms 
-from .forms import CreateUserForm, ComicForm, ArtistForm, SearchForm
+from .forms import CreateUserForm, ComicForm, ArtistForm, SearchForm, CommentForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from .models import Artist, ComicStrip, Comment
@@ -9,9 +9,11 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
+
+
 # Create your views here.
 def home(request):
-	return render(request,'Skribbly/index.html')
+	return render(request,'Skribbly/index.html',{'user':request.user})
 
 def index(request):
 	return redirect('home')
@@ -24,57 +26,72 @@ def loginPage(request):
 		user = authenticate(request,username=username,password=password)
 		if user is not None:
 			login(request,user)
-			return render(request,'Skribbly/profile.html',{'user':user})
+			comics=ComicStrip.objects.filter(user=request.user)
+			return render(request,'Skribbly/profile.html',{'user':user,'comics':comics[0::-1]})
 		else:
 			messages.info(request, 'Username OR Password is incorrect')
 	return render(request,'Skribbly/login.html')
 	
 def logoutUser(request):
 	logout(request)
-	return redirect('home')
+	return redirect('index')
 
 @login_required(login_url='login')
 def profile(request, username):
 	user = User.objects.get(username = username)
-	return render(request,'Skribbly/profile.html',{'user':user})
+	comics=ComicStrip.objects.filter(user=request.user)
+	return render(request,'Skribbly/profile.html',{'user':user,'comics':comics[0::-1]})
 
 def register(request):
 	form = CreateUserForm()
 	if request.method =="POST":
 		form = CreateUserForm(request.POST)
-		print(form)
+		#print(form)
 		if form.is_valid():
 			form.save()
 			user = form.cleaned_data.get('username')
 			messages.success(request, 'Account was created for ' + user )
 			return redirect('login')
+		else:
+			print(form.errors)
+			# raise forms.ValidationError(('Invalid value-The password must be 8characters long and must not be similar to the username.Check if the passwords match'), code='invalid')
+
 	context = {'form':form}
 	return render(request,'Skribbly/register.html',context)
-	
+
+
+# @login_required(login_url='login')	
 def gallery(request):
+	
 	ComicStrips=ComicStrip.objects.all()
+	cform=CommentForm()
 	if(request.method=="POST"):
 		form=SearchForm(request.POST)
+		cform = CommentForm(request.POST)
+		print(cform)
 		if(form.is_valid()):
 			ComicStrips=ComicStrip.objects.filter(Q(title=request.POST.get('title','')))
+			print(ComicStrips)
 			return render(request,"Skribbly/gallery.html",{'form':form,'ComicStrips':ComicStrips})
+		if(cform.is_valid()):
+			return render(request,'Skribbly/gallery.htm',{'form':form,'ComicStrips':ComicStrips,'user':request.user,'cform':cform})
 	else:
 		form=SearchForm()
-		return render (request,"Skribbly/gallery.html",{'form':form,'ComicStrips':ComicStrips})
-	
+		cform=CommentForm()
+		return render (request,"Skribbly/gallery.html",{'form':form,'ComicStrips':ComicStrips,'user':request.user,'cform':cform})
+
 def tutorial(request):
-	return render(request,'Skribbly/tutorial.html')
+	return render(request,'Skribbly/tutorial.html',{'user':request.user})
 	
 @login_required(login_url='login')
 def canvas(request):
-	print(request.method)
+	# user=User.objects.get(username=request.user)
 	if(request.method == 'POST'):
 		form = ComicForm(request.POST)
 		print(form.is_valid())
 		if(form.is_valid()):
 			form.capture_comic(request.user)
 			comic_strip = ComicStrip(user=request.user, title=form.cleaned_data['title'])
-			# print(comic_strip)
 			comic_strip.create()
 			# messages.success(request, "Successfully saved the comic strip in your profile")
 			# return redirect('profile')
@@ -83,7 +100,7 @@ def canvas(request):
 			return
 	form = ComicForm()
 	print(form)
-	return render(request = request, template_name = 'Skribbly/canvas.html', context = {"form": form})
+	return render(request = request, template_name = 'Skribbly/canvas.html', context = {"form": form,"user":user})
 
 @login_required(login_url='login')
 def edit_profile(request):
@@ -91,12 +108,16 @@ def edit_profile(request):
 	if request.method == 'POST':
 		form = ArtistForm(request.POST,request.FILES, instance=user.artist)
 		if form.is_valid():
+			# form.save(commit=False)
 			form.save()
-			return render(request,'Skribbly/profile.html',{'user': user})
+			comics=ComicStrip.objects.filter(user=request.user)
+			return render(request,'Skribbly/profile.html',{'user':user,'comics':comics[0::-1]})
 		else:
 			print(form.errors)
 			form = ArtistForm(instance=user.artist)
+			#return render(request,'Skribbly/edit_profile.html',{ 'form': form})
+
 	else:
 		form = ArtistForm(instance=user.artist)
-
+	
 	return render(request,'Skribbly/edit_profile.html',{ 'form': form})
