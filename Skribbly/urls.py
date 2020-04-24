@@ -14,5 +14,7 @@ urlpatterns = [
 	path('tutorial/',views.tutorial,name='tutorial'),
 	path('index/',views.index,name='index'),
 	path('edit_profile/',views.edit_profile,name='edit_profile'),
+	path('like/', views.like, name='like'),
+	path('favorite/', views.favorite, name='favorite'),
 ]
 

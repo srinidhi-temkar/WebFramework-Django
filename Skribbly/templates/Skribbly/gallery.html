@@ -3,290 +3,412 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SKRIBLY - Gallery</title>
-    <style>
-        html {
-            box-sizing: border-box;
-            /*background-image: url({%static 'images/grad8.jpg' %});*/
-            background-color:#bce090;
-            text-align: center;
-        }
-        
-        *,
-        *:before,
-        *:after {
-            box-sizing: inherit;
-        }
-        input[type=text] {
-            width: 15%;
-            /* width: 140px; */
-            box-sizing: border-box;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-            color: white;
-            background-color: black;
-            background-image: url("{% static 'images/searchicon.png' %}");
-            background-position: 10px 10px;
-            background-repeat: no-repeat;
-            padding: 12px 20px 12px 40px;
-            -webkit-transition: width 0.4s ease-in-out;
-            transition: width 0.4s ease-in-out;
-            /* margin-right: 3%; */
-            margin-right: 31%;
-        }
-        
-        input[type=text]:focus {
-            width: 100%;
-        }
-        
-        hr.newline {
-            border: 10px solid black;
-            border-radius: 5px;
-        }
-        
-        .column {
-            float: left;
-            width: 33.3%;
-            margin-bottom: 16px;
-            padding: 0 8px;
-        }
-        
-        @media screen and (max-width: 650px) {
-            .column {
-                width: 100%;
-                display: block;
-            }
-        }
-        
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        }
-        
-        .container {
-            
-            padding: 0 16px;
-            background-color:#2e2611;
-            color:white;
-        }
-        
-        .container::after,
-        .row::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-        
-        .title {
-            color: grey;
-        }
-        
-        .button {
-            border: none;
-            outline: 0;
-            display: inline-block;
-            padding: 8px;
-            color: black;
-            background-color: white;
-            text-align: center;
-            cursor: pointer;
-            width: 100%;
-        }
-        
-        .button:hover {
-            background-color: grey;
-        }
-        
-        .posts:hover {
-            transform: scale(1.1) translate3d(30px, 30px, 30px);
-        }
-        
-        .topnav a {
-            float: left;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: black;
-            color: white;
-        }
-        
-        .topnav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        
-        i {
-            border: solid black;
-            border-width: 0 3px 3px 0;
-            display: inline-block;
-            padding: 3px;
-        }
-        
-        .left {
-            transform: rotate(135deg);
-            -webkit-transform: rotate(135deg);
-        }
-        .div1 {
-            background-color:#2e2611;
-            display: flex;
-            align-items: center;
-            /*position: relative;
-            align-self:flex-starr;*/
-            height:30px;
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script>
+		var curr;
+		$(document).ready(function(){
+			$(".likee").click(function () {
+				curr = $(this);
+				$.ajax({
+					type: 'POST',
+					url: {% url 'like' %},
+					data: {
+						'comic_strip_pk': $(this).attr('id'),
+						'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+					},
+					success: function(data) { LikeComic(data, curr) },
+					dataType: 'html'
+				});
+			});
 
-        }
-        .sbtn {
-            width:6%;
-            height:10%;
-            font-size:16px;
-            border-radius: 4px;
-        }
-        
-        #like,#fav {
-         
-            padding:0.5px 1px;
-            
-        }
-        #like{
-            margin-left: 0%;
-        }
-        #fav{
-            
-            margin-left: 84%;
-        }
-        #like_img
-        {  
-            height:3vh;
-            width:2vw;
-        }
-        #fav_img
-        {   
-            height:3vh;
-            width:2vw;
-        }
-        #h2 {
-            font-family: Arial, Helvetica, sans-serif; 
-            font-size: medium; 
-            text-align: center;
-            color:black;
-            
-        }
-        #fbtn{
-            float:right;
-            
-        }
-        #commentbox{
-            display: flex;
-            position: relative;
-        }
-        .pic{
-            position:absolute;
-            width:2vw;
-            height:4vh;
-            border-radius: 50%;
-            
-        }
-        #cmnt_txt{
-            margin-left: 10%;
-        }
-        #up{
-            position:absolute;
-        left: 85%;
+			$(".favoritee").click(function () {
+			curr = $(this);
+				$.ajax({
+					type: 'POST',
+					url: {% url 'favorite' %},
+					data: {
+						'comic_strip_pk': $(this).attr('id'),
+						'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+					},
+					success: function(data) { FavoriteComic(data, curr) },
+					dataType: 'html'
+				});
+			});
 
-        }#down{
-        position:absolute;
-        left: 95%;
+			function LikeComic(data, ele) {
+				var data = $.parseJSON(data)
+				console.log(data);
+				console.log(ele);
+				console.log(ele[0]);
+				if (data['liked']) {
+					ele[0].src = "{% static 'images/thumbsc.jpg' %}"
+				}
+				else {
+					ele[0].src = "{% static 'images/like.png' %}"
+				}
+			}
 
-        }
+			function FavoriteComic(data, ele) {
+				var data = $.parseJSON(data)
+				console.log(data);
+				console.log(ele);
+				console.log(ele[0]);
+				if (data['favorited']) {
+					ele[0].src = "{% static 'images/favo.png' %}"
+				}
+				else {
+					ele[0].src = "{% static 'images/favc.png' %}"
+				}
+			}
+			});
+	</script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SKRIBLY - Gallery</title>
+	<style>
+		html {
+			box-sizing: border-box;
+			/*background-image: url({%static 'images/grad8.jpg' %});*/
+			background-color:#94e079;
+			text-align: center;
+		}
+		
+		*,
+		*:before,
+		*:after {
+			box-sizing: inherit;
+		}
+		input[type=text] {
+			width: 15%;
+			/* width: 140px; */
+			box-sizing: border-box;
+			border: 2px solid #ccc;
+			border-radius: 4px;
+			font-size: 16px;
+			color: white;
+			background-color: black;
+			background-image: url("{% static 'images/searchicon.png' %}");
+			background-position: 10px 10px;
+			background-repeat: no-repeat;
+			padding: 12px 20px 12px 40px;
+			-webkit-transition: width 0.4s ease-in-out;
+			transition: width 0.4s ease-in-out;
+			/* margin-right: 3%; */
+			margin-right: 33%;
+		}
+		
+		input[type=text]:focus {
+			width: 100%;
+		}
+		
+		hr.newline {
+			border: 8px solid black;
+			border-radius: 5px;
+		}
+		
+		.column {
+			float: left;
+			width: 33.3%;
+			margin-bottom: 16px;
+			padding: 0 8px;
+		}
+		
+		@media screen and (max-width: 650px) {
+			.column {
+				width: 100%;
+				display: block;
+			}
+		}
+		
+		.card {
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+		}
+		
+		/* .container {
+			
+			padding: 0 16px;
+			background-color:#2e2611;
+			color:white;
+		} */
+		
+		.container::after,
+		.row::after {
+			content: "";
+			clear: both;
+			display: table;
+		}
+		
+		.title {
+			color: grey;
+		}
+		
+		.button {
+			border: none;
+			outline: 0;
+			display: inline-block;
+			padding: 8px;
+			color: black;
+			background-color: white;
+			text-align: center;
+			cursor: pointer;
+			width: 100%;
+		}
+		
+		.button:hover {
+			background-color: grey;
+		}
+		
+		.posts:hover {
+			transform: scale(1.1) translate3d(30px, 30px, 30px);
+		}
+		
+		.topnav a {
+			float: left;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			font-size: 17px;
+			font-family: Arial, Helvetica, sans-serif;
+			background-color: black;
+			color: white;
+		}
+		
+		.topnav a:hover {
+			background-color: #ddd;
+			color: black;
+		}
+		
+		i {
+			border: solid black;
+			border-width: 0 3px 3px 0;
+			display: inline-block;
+			padding: 3px;
+		}
+		
+		.left {
+			transform: rotate(135deg);
+			-webkit-transform: rotate(135deg);
+		}
+		.container{
+			background-color:black;
+		}
+		.div1 {
+			/* background-color:#2e2611; */
+			background-color:black;
+			display: flex;
+			align-items: center;
+			/*position: relative;
+			align-self:flex-starr;*/
+			height:30px;
 
-    </style>
+		}
+		.sbtn {
+			width:6%;
+			height:10%;
+			font-size:16px;
+			border-radius: 4px;
+		}
+
+		.pic{
+			position:absolute;
+			width:2vw;
+			height:4vh;
+			border-radius: 50%;
+			left:2%;
+			
+		}
+		
+		#like,#fav {
+		 
+			padding:0.5px 1px;
+			
+		}
+		#like{
+			margin-left: 0%;
+		}
+		#fav{
+			
+			margin-left: 83.5%;
+		}
+		.likee
+		{  
+			height:3vh;
+			width:2vw;
+		}
+		.favoritee
+		{   
+			height:3vh;
+			width:2vw;
+		}
+		#h2 {
+			font-family: Arial, Helvetica, sans-serif; 
+			font-size: medium; 
+			text-align: center;
+			color:white;
+			
+		}
+		#fbtn{
+			position:absolute;
+			right:2%; 
+		}
+		#commentbox{
+			display: flex;
+			position: relative;
+		}
+		
+		
+		#cmnt_txt{
+			margin-left: 12%;
+			color:white;
+			
+		}
+		#up{
+			position:absolute;
+			left: 85%;
+			
+
+		}
+		#down{
+			position:absolute;
+			left: 92%;
+			
+
+		}
+
+		/* Parent Container */
+			.votes{
+			
+			margin-top: 2vh;
+			}
+
+			/* Child Text Container */
+			.votes p{
+			position: absolute;
+			bottom: 0;
+			font-size: smaller;
+			/*background: rgb(146, 49, 49);*/
+			color: white;
+			margin-bottom: 0.5px;
+			font-family: sans-serif;
+			opacity: 0;
+			visibility: hidden;
+			-webkit-transition: visibility 0s, opacity 0.5s linear; 
+			transition: visibility 0s, opacity 0.5s linear;
+			}
+
+			/* Hover on Parent Container */
+			/* .votes:hover{
+			cursor: pointer;
+			cursor: url(myBall.cur),auto;
+			} */
+
+			.votes:hover p{
+			width: 150px;
+		   /* padding: 8px 15px;*/
+			visibility: visible;
+			opacity: 1; 
+			}
+		
+		
+	</style>
 </head>
 
 <body>
 	{% block content %}
 
-    <div class="topnav">
-        <a href="{% url 'index' %}"><i class="arrow left"></i>Back</a>
-        <a href="{% url 'tutorial' %}">Tutorial</a>
-        {% if user.email %}
-        <a href="{% url 'profile' user %}">Profile</a>
-        <a href="{% url 'canvas' %}">Workspace</a>
-        {% else %}
-        <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'register' %}">Sign-Up</a>
-        {% endif %}
-    </div>
-    <br>
-    
-    <div>
-    <form method="POST">
-		{%csrf_token%} 
-		{{ form.as_p }}
-        <button class='sbtn' type="submit" placeholder="Search"> Search </button>	
-        
-    </form>
-</div>
-    <hr class="newline">
+	<div class="topnav">
+		<a href="{% url 'index' %}"><i class="arrow left"></i>Back</a>
+		<a href="{% url 'tutorial' %}">Tutorial</a>
+		{% if user.email %}
+		<a href="{% url 'profile' user %}">Profile</a>
+		<a href="{% url 'canvas' %}">Workspace</a>
+		{% else %}
+		<a href="{% url 'login' %}">Login</a>
+		<a href="{% url 'register' %}">Sign-Up</a>
+		{% endif %}
+	</div>
+	<br>
 	
-		{%for i in ComicStrips%}
-        <div class="column" id="column" >
-            <div class="card"  >
-                <h2 id="h2"  >{{i.title}}</h2>
-                <img class="posts" src="{{i.strip_image.url}}" alt="{{i.strip_image}}" style="width:100% ;height:200px">
+	<div>
+	<form method="POST">
+		{%csrf_token%} 
+		{{ search_form.as_p }}
+		<button class='sbtn' type="submit" placeholder="Search"> Search </button>	
+		
+	</form>
+</div>
+	<hr class="newline">
+	
+		{%for i in comic_strips%}
+		<div class="column" id="column" >
+			<div class="card"  >
+				<h2 id="h2"  >{{i.title}} <p class="title" style="margin-top: 0.01%;"><a href="{% url 'profile' i.user %}" style="color: white;">{{i.user}}</a></p></h2>
+				<img class="posts" src="{{i.strip_image.url}}" alt="{{i.strip_image}}" style="width:100% ;height:200px">
 
-                
-                <div class="div1"> <button id="like"><img id="like_img" src="{% static 'images/like.png' %}"></button>
-                       
-                    <button id="fav"><img id="fav_img" src="{% static 'images/fav.png' %}"></button>
-                </div>
+				{% if user.is_authenticated %}
+				<div class="div1" style = "color:white;"> 
+					<button id="like"><img class = "likee" id="{{i.pk}}" src={% if user not in i.likes.all %} "{% static 'images/thumbsc.jpg' %}" {% else %} "{% static 'images/like.png' %}" {% endif %}></button>
+					<button id="fav"><img class="favoritee" id = "{{i.pk}}" src={% if i in user.artist.favorites.all %} "{% static 'images/favc.png' %}" {% else %} "{% static 'images/favo.png' %}" {% endif %}></button>
+				</div>
+				{% endif %}
 
-                <div class="container" style="font-family: cursive;">
-                    <p class="title" style="margin-top: 0.01%;"><a href="{% url 'profile' i.user %}" style="color: white;">{{i.user}}</a></p>
-                     {% for j in i.comments.all %}
-                        <hr>
-                        <div id='commentbox'>
-                        <p><img id='pic'class='pic' src={% if j.user.artist.profile_picture %} "{{ j.user.artist.profile_picture.url }}" {% else %} "/media/Skribbly/Profile Pictures/default.jpg" {% endif %}></p>
-                        <p id='cmnt_txt'>{{j.user}}: {{j.comment}} {% if j.edited %} edited {% endif %}</p>
-                        <p id='pup'><img id='up' class='pic' src="{% static 'images/thumbsup.png' %}"></p>
-                        <p id='pdown'><img id='down' class='pic' src="{% static 'images/thumbsdown.jpg' %}"></p>
-                        
-                      
-                        
-                         
-                        </div>
-                        
-                    {% endfor %}
-                    <div id="form">
-                        <form method="POST">
-                            <form method="POST">
-                                {%csrf_token%} 
-                                    {{cform.comment}}
-                                <button type="submit" id="fbtn">POST</button>
-                        </form>
-                    </div>
-                   
-                </div>
-            </div>
-        </div>
+				<div class="container" style="font-family: cursive;">
+					<!-- <p class="title" style="margin-top: 0.01%;"><a href="{% url 'profile' i.user %}" style="color: white;">{{i.user}}</a></p> -->
+					 {% for j in i.comments.all reversed %}
+					   
+
+					<div id='commentbox'> 
+						<p><img id='pic'class='pic' src={% if j.user.artist.profile_picture %} "{{ j.user.artist.profile_picture.url }}" {% else %} "/media/Skribbly/Profile Pictures/default.jpg" {% endif %}></p>
+						<p id='cmnt_txt'>{{j.user}}: {{j.comment}} {% if j.edited %} edited {% endif %}</p>
+
+						<div id='pup' class="votes">
+							<img id='up' class='pic' src="{% static 'images/thumbsup.png' %}">
+							<p style="left:21.7vw">{{j.upvotes.count}}</p>
+						</div>
+
+						<div id='pdown' class="votes">
+							<img id='down' class='pic' src="{% static 'images/thumbsdown.jpg' %}">
+							<p style="left:23.7vw">{{j.downvotes.count}}</p>
+
+						</div>
+					</div>
+
+						<hr style="width:90%">
+
+					{% endfor %}
+					<div id="commentbox">
+						<form id="cmnt_txt" method="POST"> {%csrf_token%}                                     
+							{{comment_form.comment}}
+							<input type = "hidden" value = "{{ i.pk }}" name = "comic_strip" />
+							<!-- <input type="button" id="fbtn" onclick = "postComment({{i}})" value = "Post" />  -->
+							<button type="submit" id="fbtn">Post</button>
+						</form>
+					</div>
+				   
+				</div>
+			</div>
+		</div>
 		{% endfor %}
-    {% endblock %}
+	{% endblock %}
    
 </body>
 <script>
-    var t=document.getElementsByTagName("textarea");
-    for(i=0;i<t.length;i++)
-    {
-        t[i].rows='1';
-        t[i].cols='31';
-        t[i].placeholder='Add a comment...';
-        t[i].style.fontFamily='cursive';
-        
+	jQuery(document).ready(function(e) {console.log(jQuery('.likee'))});
+	
+	var t=document.getElementsByTagName("textarea");
+	for(i=0;i<t.length;i++)
+	{
+		t[i].rows='1';
+		t[i].cols='30';
+		t[i].placeholder='Add a comment...';
+		t[i].style.fontFamily='cursive';
+		
 
-    }
-    
+	}
+
+	function postComment(comic_strip) {
+		comment_form = document.getElementById('cmnt_txt');
+		console.log(comic_strip);
+	}
 </script>
 
 </html>

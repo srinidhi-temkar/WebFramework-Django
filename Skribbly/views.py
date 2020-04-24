@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.forms import forms 
 from .forms import CreateUserForm, ComicForm, ArtistForm, SearchForm, CommentForm
 from django.contrib import messages
@@ -26,8 +26,8 @@ def loginPage(request):
 		user = authenticate(request,username=username,password=password)
 		if user is not None:
 			login(request,user)
-			comics=ComicStrip.objects.filter(user=request.user)
-			return render(request,'Skribbly/profile.html',{'user':user,'comics':comics[0::-1]})
+			comic_strips = ComicStrip.objects.filter(user=request.user)
+			return render(request,'Skribbly/profile.html',{'user':user,'comics':comic_strips[0::-1]})
 		else:
 			messages.info(request, 'Username OR Password is incorrect')
 	return render(request,'Skribbly/login.html')
@@ -39,8 +39,8 @@ def logoutUser(request):
 @login_required(login_url='login')
 def profile(request, username):
 	user = User.objects.get(username = username)
-	comics=ComicStrip.objects.filter(user=request.user)
-	return render(request,'Skribbly/profile.html',{'user':user,'comics':comics[0::-1]})
+	comic_strips = ComicStrip.objects.filter(user=user)
+	return render(request,'Skribbly/profile.html',{'user':user,'comics':comic_strips[0::-1]})
 
 def register(request):
 	form = CreateUserForm()
@@ -59,33 +59,71 @@ def register(request):
 	context = {'form':form}
 	return render(request,'Skribbly/register.html',context)
 
-
-# @login_required(login_url='login')	
-def gallery(request):
-	
-	ComicStrips=ComicStrip.objects.all()
-	cform=CommentForm()
-	if(request.method=="POST"):
-		form=SearchForm(request.POST)
-		cform = CommentForm(request.POST)
-		print(cform)
-		if(form.is_valid()):
-			ComicStrips=ComicStrip.objects.filter(Q(title=request.POST.get('title','')))
-			print(ComicStrips)
-			return render(request,"Skribbly/gallery.html",{'form':form,'ComicStrips':ComicStrips})
-		if(cform.is_valid()):
-			return render(request,'Skribbly/gallery.htm',{'form':form,'ComicStrips':ComicStrips,'user':request.user,'cform':cform})
+@login_required(login_url = 'login')
+def like(request):
+	user = request.user
+	pk = request.POST.get('comic_strip_pk')
+	comic_strip = ComicStrip.objects.get(pk=pk)
+	_liked = user in comic_strip.likes.all()
+	if _liked:
+		comic_strip.likes.remove(user)
 	else:
-		form=SearchForm()
-		cform=CommentForm()
-		return render (request,"Skribbly/gallery.html",{'form':form,'ComicStrips':ComicStrips,'user':request.user,'cform':cform})
+		comic_strip.likes.add(user)
+	return JsonResponse({'liked':_liked, 'comic_strip_pk':pk})
+
+@login_required(login_url = 'login')
+def favorite(request):
+	user = request.user
+	pk = request.POST.get('comic_strip_pk')
+	comic_strip = ComicStrip.objects.get(pk=pk)
+	_favorited = comic_strip in user.artist.favorites.all()
+	if _favorited:
+		user.artist.favorites.remove(comic_strip)
+	else:
+		user.artist.favorites.add(comic_strip)
+	return JsonResponse({'favorited':_favorited, 'comic_strip_pk':pk})
+
+def gallery(request):
+	user = request.user
+	if(request.method == "POST"):
+		print(request.POST)
+		if('title' in request.POST):
+			search_form = SearchForm(request.POST)
+			comment_form = CommentForm()
+			if(search_form.is_valid()):
+				comic_strips = ComicStrip.objects.filter(Q(title=request.POST.get('title','')))
+				return render(request,'Skribbly/gallery.html',{'search_form':search_form,'comic_strips':comic_strips,'user':user,'comment_form':comment_form})
+			else:
+				return render(request,'Skribbly/gallery.html',{'search_form':search_form,'comic_strips':comic_strips,'user':user,'comment_form':comment_form})
+		elif('comment' in request.POST):
+			if(user.is_authenticated):
+				comment_form = CommentForm(request.POST)
+				search_form = SearchForm()
+				comic_strips = ComicStrip.objects.all()
+				if(comment_form.is_valid()):
+					comment = comment_form.save(commit = False)
+					comment.user = user
+					comment.comic_strip = ComicStrip.objects.get(pk = request.POST['comic_strip'])
+					comment.save()
+					comment_form = CommentForm()
+					# change to profile
+					return render (request,"Skribbly/gallery.html",{'search_form':search_form,'comic_strips':comic_strips,'user':user,'comment_form':comment_form})
+				else:
+					print(comment_form.errors)
+					return render (request,"Skribbly/gallery.html",{'search_form':search_form,'comic_strips':comic_strips,'user':user,'comment_form':comment_form})
+			else:
+				return redirect('login')
+	else:
+		search_form = SearchForm()
+		comment_form = CommentForm()
+		comic_strips = ComicStrip.objects.all()
+		return render (request,"Skribbly/gallery.html",{'search_form':search_form,'comic_strips':comic_strips,'user':user,'comment_form':comment_form})
 
 def tutorial(request):
 	return render(request,'Skribbly/tutorial.html',{'user':request.user})
 	
 @login_required(login_url='login')
 def canvas(request):
-	# user=User.objects.get(username=request.user)
 	if(request.method == 'POST'):
 		form = ComicForm(request.POST)
 		print(form.is_valid())
@@ -100,7 +138,7 @@ def canvas(request):
 			return
 	form = ComicForm()
 	print(form)
-	return render(request = request, template_name = 'Skribbly/canvas.html', context = {"form": form,"user":user})
+	return render(request = request, template_name = 'Skribbly/canvas.html', context = {"form": form,"user":request.user})
 
 @login_required(login_url='login')
 def edit_profile(request):

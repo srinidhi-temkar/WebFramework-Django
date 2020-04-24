@@ -33,13 +33,14 @@ class ComicForm(forms.Form):
 		except FileExistsError:
 			pass
 		with open(f'media/Skribbly/Comic Strips/{user}/temp', 'wb') as f:
-		    f.write(image_data)
+			f.write(image_data)
 
 # Add new comment or edit existing comment
 class CommentForm(forms.ModelForm):
 	class Meta:
 		model = Comment
-		fields = ['comment', 'user', 'edited', 'comic_strip', 'upvotes', 'downvotes']
+		fields = ['comment', 'edited']
+		exclude = ['comic_strip']
 
 # Search existing comic strips
 class SearchForm(forms.ModelForm):

@@ -45,7 +45,7 @@ class ComicStrip(models.Model):
 
 class Comment(models.Model):
 	comment = models.TextField(max_length = 512)
-	edited = models.BooleanField()
+	edited = models.BooleanField(default = False)
 	user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'comments')
 	comic_strip = models.ForeignKey(ComicStrip, on_delete = models.CASCADE, related_name = 'comments')
 	added_on = models.DateTimeField(default = timezone.now)
