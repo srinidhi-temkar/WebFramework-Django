@@ -54,7 +54,7 @@ def register(request):
 			return redirect('login')
 		else:
 			print(form.errors)
-			# raise forms.ValidationError(('Invalid value-The password must be 8characters long and must not be similar to the username.Check if the passwords match'), code='invalid')
+			raise forms.ValidationError(('Invalid value-The password must be 8characters long and must not be similar to the username.Check if the passwords match'), code='invalid')
 
 	context = {'form':form}
 	return render(request,'Skribbly/register.html',context)
@@ -146,12 +146,12 @@ def edit_profile(request):
 	if request.method == 'POST':
 		form = ArtistForm(request.POST,request.FILES, instance=user.artist)
 		if form.is_valid():
-			# form.save(commit=False)
+			form.save(commit=False)
 			form.save()
 			comics=ComicStrip.objects.filter(user=request.user)
-			return render(request,'Skribbly/profile.html',{'user':user,'comics':comics[0::-1]})
+			return render(request,'Skribbly/profile.html',{'user':user,'ComicStrips':comics[0::-1]})
 		else:
-			print(form.errors)
+			#err=form.errors
 			form = ArtistForm(instance=user.artist)
 			#return render(request,'Skribbly/edit_profile.html',{ 'form': form})
 
@@ -159,3 +159,16 @@ def edit_profile(request):
 		form = ArtistForm(instance=user.artist)
 	
 	return render(request,'Skribbly/edit_profile.html',{ 'form': form})
+
+def comicpage(request,pk,title):
+	
+	form=ComicStrip.objects.get(pk=pk)
+	cform = CommentForm(request.POST)
+
+	
+	return render(request,'Skribbly/comicpage.html',{'comic':form, 'cform':cform})
+
+
+
+	
+
