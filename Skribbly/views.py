@@ -26,8 +26,11 @@ def loginPage(request):
 		user = authenticate(request,username=username,password=password)
 		if user is not None:
 			login(request,user)
+			# prof=User.objects.get(username=user)
+			# prof1=Artist.objects.get(user=user)
+			# return render(request,'Skribbly/profile.html',{'profile':prof ,'profile1':prof1})
 			comics=ComicStrip.objects.filter(user=request.user)
-			return render(request,'Skribbly/profile.html',{'user':user,'comics':comics[0::-1]})
+			return render(request,'Skribbly/profile.html',{'user':user,'ComicStrips':comics[0::-1]})
 		else:
 			messages.info(request, 'Username OR Password is incorrect')
 	return render(request,'Skribbly/login.html')
@@ -37,10 +40,10 @@ def logoutUser(request):
 	return redirect('index')
 
 @login_required(login_url='login')
-def profile(request, username):
-	user = User.objects.get(username = username)
+def profile(request, user):
+	user = User.objects.get(username = request.user)
 	comics=ComicStrip.objects.filter(user=request.user)
-	return render(request,'Skribbly/profile.html',{'user':user,'comics':comics[0::-1]})
+	return render(request,'Skribbly/profile.html',{'user':user,'ComicStrips':comics[0::-1]})
 
 def register(request):
 	form = CreateUserForm()
@@ -54,13 +57,13 @@ def register(request):
 			return redirect('login')
 		else:
 			print(form.errors)
-			# raise forms.ValidationError(('Invalid value-The password must be 8characters long and must not be similar to the username.Check if the passwords match'), code='invalid')
+			raise forms.ValidationError(('Invalid value-The password must be 8characters long and must not be similar to the username.Check if the passwords match'), code='invalid')
 
 	context = {'form':form}
 	return render(request,'Skribbly/register.html',context)
 
 
-# @login_required(login_url='login')	
+@login_required(login_url='login')	
 def gallery(request):
 	
 	ComicStrips=ComicStrip.objects.all()
@@ -71,8 +74,8 @@ def gallery(request):
 		print(cform)
 		if(form.is_valid()):
 			ComicStrips=ComicStrip.objects.filter(Q(title=request.POST.get('title','')))
-			print(ComicStrips)
-			return render(request,"Skribbly/gallery.html",{'form':form,'ComicStrips':ComicStrips})
+			#print(ComicStrips)
+			return render(request,"Skribbly/gallery_search.html",{'form':form,'ComicStrips':ComicStrips})
 		if(cform.is_valid()):
 			return render(request,'Skribbly/gallery.htm',{'form':form,'ComicStrips':ComicStrips,'user':request.user,'cform':cform})
 	else:
@@ -85,7 +88,7 @@ def tutorial(request):
 	
 @login_required(login_url='login')
 def canvas(request):
-	# user=User.objects.get(username=request.user)
+	user=User.objects.get(username=request.user)
 	if(request.method == 'POST'):
 		form = ComicForm(request.POST)
 		print(form.is_valid())
@@ -108,12 +111,12 @@ def edit_profile(request):
 	if request.method == 'POST':
 		form = ArtistForm(request.POST,request.FILES, instance=user.artist)
 		if form.is_valid():
-			# form.save(commit=False)
+			form.save(commit=False)
 			form.save()
 			comics=ComicStrip.objects.filter(user=request.user)
-			return render(request,'Skribbly/profile.html',{'user':user,'comics':comics[0::-1]})
+			return render(request,'Skribbly/profile.html',{'user':user,'ComicStrips':comics[0::-1]})
 		else:
-			print(form.errors)
+			#err=form.errors
 			form = ArtistForm(instance=user.artist)
 			#return render(request,'Skribbly/edit_profile.html',{ 'form': form})
 
@@ -121,3 +124,24 @@ def edit_profile(request):
 		form = ArtistForm(instance=user.artist)
 	
 	return render(request,'Skribbly/edit_profile.html',{ 'form': form})
+
+# @property
+#doesn't work as it returns an object
+# def profile_picture_url(self):
+# 	if self.profile_picture and hasattr(self.profile_picture,'url'):
+# 		return self.profile_picture.url
+	
+# 	return "/images/profdem.jpg"
+
+def comicpage(request,pk,title):
+	
+	form=ComicStrip.objects.get(pk=pk)
+	cform = CommentForm(request.POST)
+
+	
+	return render(request,'Skribbly/comicpage.html',{'comic':form, 'cform':cform})
+
+
+
+	
+

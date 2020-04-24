@@ -35,11 +35,10 @@ class ComicForm(forms.Form):
 		with open(f'media/Skribbly/Comic Strips/{user}/temp', 'wb') as f:
 		    f.write(image_data)
 
-# Add new comment or edit existing comment
-class CommentForm(forms.ModelForm):
-	class Meta:
-		model = Comment
-		fields = ['comment', 'user', 'edited', 'comic_strip', 'upvotes', 'downvotes']
+# # Add new comment or edit existing comment
+# class CommentForm(forms.ModelForm):
+# 	class Meta:
+# 		model = Comment
 
 # Search existing comic strips
 class SearchForm(forms.ModelForm):
@@ -56,3 +55,8 @@ class CreateUserForm(UserCreationForm):
 	class Meta:
 		model = User
 		fields = ['username','email','password1','password2']
+
+class CommentForm(forms.ModelForm):
+	class Meta:
+		model=Comment
+		fields=['comment','user','comic_strip', 'edited','added_on','upvotes','downvotes']
