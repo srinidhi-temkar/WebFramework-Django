@@ -6,6 +6,7 @@
     <title>Profile Page</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width = device-width, initial-scale = 1">
+    <link href="{% static '/css/profile.css'%}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cabin:400,700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -72,28 +73,6 @@
             padding: 20px;
         }
         
-        .fakeimg {
-            background-color: #aaa;
-            width: 70%;
-            padding: 20px;
-        }
-        
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            color: black;
-        }
-        
-        .containerprof {
-            padding: 0 8px;
-        }
-        
-        .containerprof::after,
-        .row::after {
-            content: "";
-            clear: both;
-            display: table;
-            color: rgb(22, 19, 19);
-        }
     </style>
 </head>
 
@@ -115,10 +94,7 @@
             
             <h2>{{ user.username }}</h2>
             {% if user.artist.profile_picture %}
-                <img src="{{ user.artist.profile_picture.url }}" alt="Add Profile Picture" style="height:30%;width:75%">
-                <!-- <img src="{{ user.artist.profile_picture.url }}" alt="Add Profile Picture" style="height:125px;width:125px"> -->
-            {% else %}
-                <img src="/media/Skribbly/Profile Pictures/default.jpg" alt="Add Profile Picture" style="height:30%;width:75%">
+            <img src="{{ user.artist.profile_picture.url }}" alt="Add Profile Picture" style="height:125px;width:125px">
             {%endif%}
             <h3>{{ user.email }}</h3>
             <button class="updateprofpic" style="height:50px; border: 3px solid rgb(51, 48, 48); color:white; background-color: black;"  onclick="location.href='{% url 'edit_profile' %}'">Update Profile<br>
@@ -126,16 +102,52 @@
 	</div>
 	<div class="main">
         <h1 id="h1" style="font-family: Arial, Helvetica, sans-serif; text-align:center">COMICS</h1>
-        {%block content%}
-                {% for comic in comics %}
-                    <h4 id="h4">{{comic.title}}</h4>
-                    <img src='{{ comic.strip_image.url }}' alt="Posts" style="width:50%;height:25%">
-                {% endfor %}
-				<!--<div class="containerprof">
-						<textarea  rows="5" cols="61" name="comment" form="usrform" placeholder="Comment" style=" border: 5px solid rgb(51, 48, 48);"></textarea>
-				
-				</div>-->
-		{%endblock%}
+        {%block content %}
+        {%for i in ComicStrips%}
+        <div class="column" id="column" >
+            <div class="card"  >
+                <h2 id="h2"  >{{i.title}}</h2>
+                <img class="posts" src="{{i.strip_image.url}}" alt="{{i.strip_image}}" style="width:100% ;height:200px">
+
+                
+                
+
+                <div class="container" style="font-family: cursive;">
+                    <div class="div1"> 
+                        <button id="like"><img id="like_img" src="{% static 'images/like.png' %}" onclick="changelike(event)"></button>
+                        <button id="fav"><img id="fav_img" src="{% static 'images/favc.png' %}" onclick="changefav(event)"></button>
+                    </div>
+                    {% for j in i.comments.all reversed %}
+                       
+                        <hr style="width:90%">
+
+                    <div id='commentbox'> 
+                        
+                        <p><img id='pic'class='pic' src="{{ j.user.artist.profile_picture.url }}"></p>
+
+                        <p id='cmnt_txt'>{{j.user}}: {{j.comment}} {% if j.edited %} edited {% endif %}</p>
+
+                        <div id='pup' class="votes">
+                            <img id='up' class='pic' src="{% static 'images/thumbsup.png' %}">
+                            <p style="left:26.5vw">{{j.upvotes.count}}</p>
+                        </div>
+
+                        <div id='pdown' class="votes">
+                            <img id='down' class='pic' src="{% static 'images/thumbsdown.jpg' %}">
+                            <p style="left:29vw">{{j.downvotes.count}}</p>
+
+                        </div>
+                    </div>
+                        
+                    {% endfor %}
+                   
+                </div>
+            </div>
+        </div>
+		{% endfor %}
+    {% endblock %}
+   
+       
     </div>
     </div>
 
@@ -183,3 +195,10 @@
 
 </body>
 </html>
+
+
+
+
+
+
+

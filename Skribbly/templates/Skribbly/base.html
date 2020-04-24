@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+   
+    <link href="{% static '/css/gallery.css'%}" rel="stylesheet">
+   
+    <title>SKRIBLY - Gallery</title>
+    
+</head>
+
+<body>
+	
+    <div class="topnav">
+        <a href="{% url 'gallery' %}"><i class="arrow left"></i>Back</a>
+        <a href="{% url 'tutorial' %}">Tutorial</a>
+        {% if user.email %}
+        <a href="{% url 'profile' user=user %}">Profile</a>
+        <a href="{% url 'canvas' %}">Workspace</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Sign-Up</a>
+        {% endif %}
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div>
+         <hr class="newline" style=" border: 5px solid black;">
+        {% block content %}
+        {% endblock %}
+</body>
+<script>
+    
+    {
+    var t=document.getElementsByTagName("textarea");
+    for(i=0;i<t.length;i++)
+    {
+        t[i].rows='1';
+        t[i].cols='30';
+        t[i].placeholder='Add a comment...';
+        t[i].style.fontFamily='cursive';
+        
+
+    }
+
+    function changefav(ev)
+    {
+        console.log(ev.target);
+        ev.target.src="{% static 'images/favc.png' %}"
+        
+    }    
+    function changelike(ev)
+    {
+        console.log(ev.target);
+        ev.target.src="{% static 'images/like.png' %}"
+        
+    }    
+
+}
+    
+
+</script>
+
+</html>
